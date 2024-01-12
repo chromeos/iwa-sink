@@ -1,23 +1,11 @@
 {
   "id": "/",
-  "short_name": "IWA Demo",
-  "name": "IWA Demo",
-  "version": "0.2.1",
+  "short_name": "IWA KS",
+  "name": "Kitchen Sink IWA",
+  "version": "0.2.8",
   "icons": [
     {
-      "src": "vite.svg",
-      "sizes": "48x48 72x72 96x96 128x128 256x256 512x512 1024x1024",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "images/icons-192.png",
-      "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "images/icons-512.png",
+      "src": "images/icon.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
