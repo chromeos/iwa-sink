@@ -1,0 +1,11 @@
+controlledframe {
+  display: block;
+  height: 50vh;
+  width: 100vw;
+  border: 1px solid black;
+}
+
+
+body {
+  background: red;
+}
