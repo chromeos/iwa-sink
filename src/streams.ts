@@ -5,7 +5,7 @@ export async function readStream(socket: TCPSocket, cb: (value: Uint8Array) => v
   const reader = connection?.readable.getReader();
 
   // Read from the socket until it's closed
-  while (true && reader) {
+  while (reader) {
     // Wait for the next chunk
     const {value, done} = await reader.read();
 
@@ -34,7 +34,7 @@ export async function collectConnections(server: TCPServerSocket, infoCB: (addre
   infoCB(localAddress, localPort);
 
   // Read connections from the server until all connections are closed
-  while (true && connections) {
+  while (connections) {
     const {value: connection, done} = await connections.read();
 
     // Send the connection to the callback

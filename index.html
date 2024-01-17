@@ -7,15 +7,23 @@
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="stylesheet" href="/src/style.css">
     <script type="module" defer src="/src/main.ts"></script>
+    <script type="module" src="/src/socket-connection.ts"></script>
     <title>Vite + TS</title>
   </head>
   <body>
-    <h1>Hello World</h1>
+    <h1>IWA Kitchen Sink</h1>
+    <socket-connection></socket-connection>
+    <socket-connection></socket-connection>
+    <template id="socket-connection">
+      <p id="log">Let's make a socket connection!</p>
+      <label for="hostname">Hostname</label>
+      <input type="text" id="hostname" name="hostname" placeholder="hostname">
 
-    <form action="">
-      <input type="text" name="email">
-      <input type="password" name="password" >
-    </form>
+      <label for="port">Port</label>
+      <input type="text" id="port" name="port" placeholder="123">
+      <button id="connectButton">Connect</button>
+
+    </template>
 
     <!-- <controlledframe id="view" src="https://example.com" partition="persist:exampleframe"></controlledframe>
 

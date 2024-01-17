@@ -19,12 +19,15 @@ collectConnections(
   },
   async (connection: TCPSocket) => {
     connections++;
+    console.log(`There are currently ${connections} connections`);
     await readStream(connection, (value: Uint8Array) => {
       const decoder = new TextDecoder();
       console.log(decoder.decode(value));
     });
     connections--;
     connection.close();
+    console.log('Closed a connection');
+    console.log(`There are currently ${connections} connections`);
 })
 
 console.log('Hello World')
