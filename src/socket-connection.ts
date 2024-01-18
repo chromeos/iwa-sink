@@ -11,65 +11,100 @@ class SocketConnection extends HTMLElement {
         super();
     }
 
+    static get observedAttributes() {
+        return ['address', 'port'];
+    }
+
+    attributeChangedCallback(property : string, oldValue : string, newValue : string) {
+        if (oldValue === newValue) return;
+        if (property === 'address') {
+            this.address = newValue;
+        }
+
+        if (property === 'port') {
+            this.port = parseInt(newValue);
+        }
+    }
     /**
      * Setup when socket connection component is appended to DOM.
      */
-    connectedCallback() {
+    async connectedCallback() {
         const shadow = this.attachShadow({mode: 'open'});
 
         const template = document.getElementById('socket-connection')?.content.cloneNode(true);
 
-        const hostInput = template.querySelector('#hostname');
-        const portInput = template.querySelector('#port');
         const logOutput = template.querySelector('#log');
+        const messageInput = template.querySelector('#messageInput');
+        const sendButton = template.querySelector('#sendButton');
+        const disconnectButton = template.querySelector('#disconnectButton');
 
-        const connectButton = template.querySelector('#connectButton');
-        connectButton.addEventListener('click', async () => {
-           await this.connectButtonCallback(hostInput, portInput, connectButton, logOutput);
+        // automatically connect to server
+        logOutput.textContent = "Trying to connect...";
+        disconnectButton.disabled = true;
+        const connected = await this.connectToServer();
+        if (connected) {
+            disconnectButton.textContent = "Disconnect";
+            disconnectButton.disabled = false;
+            logOutput.textContent = `Successfully connected to ${this.address} at port ${this.port}`;
+        } else {
+            disconnectButton.textContent = "Remove socket";
+            disconnectButton.disabled = false;
+            logOutput.textContent = `Failed to connect to ${this.address} at port ${this.port}`;
+        }
+
+
+        sendButton.addEventListener('click', async () => {
+            disconnectButton.disabled = true;
+            await this.sendButtonCallback(messageInput, sendButton, logOutput);
+            disconnectButton.disabled = false;
+         });
+
+        disconnectButton.addEventListener('click', async () => {
+            sendButton.disabled = true;
+            messageInput.disabled = true;
+            await this.disconnectButtonCallback(disconnectButton, logOutput);
         });
 
         shadow.append( template );
 
     }
+    /**
+     * Callback to handle send message button click events.
+     * Sends text input to connected server.
+     */
+    async sendButtonCallback(messageInput : HTMLInputElement, sendButton : HTMLButtonElement, logOutput : HTMLParagraphElement) {
+
+        if (this.socket && this.connection) {
+            logOutput.textContent = "Trying to send message...";
+            sendButton.disabled = true;
+
+            const writer = this.connection.writable.getWriter();
+            const encoder = new TextEncoder();
+            writer.write(encoder.encode(messageInput.value));
+            writer.releaseLock();
+
+            logOutput.textContent = `Message "${messageInput.value}" sent to ${this.address} at port ${this.port}`;
+            sendButton.disabled = false;
+
+        }
+    }
 
     /**
-     * Callback to handle connect/disconnect button click events. 
-     * Updates UI and calls methods to connect to or disconnect from server.
+     * Callback to handle disconnect button click events.
+     * Updates UI and calls methods for disconnecting from server.
      */
-    async connectButtonCallback(hostInput : HTMLInputElement, portInput : HTMLInputElement, connectButton : HTMLButtonElement, logOutput : HTMLParagraphElement) {
-        this.address = hostInput.value;
-        this.port = parseInt(portInput.value);
+    async disconnectButtonCallback(disconnectButton : HTMLButtonElement, logOutput : HTMLParagraphElement) {
+
         if (this.socket) {
             logOutput.textContent = "Trying to disconnect...";
-            connectButton.disabled = true;
+            disconnectButton.disabled = true;
             // disconnect from server
             const disconnected = await this.disconnectFromServer();
             if (disconnected) {
-                hostInput.disabled = false;
-                portInput.disabled = false;
-                connectButton.textContent = "Connect";
-                connectButton.disabled = false;
                 logOutput.textContent = `Disconnected from ${this.address} at port ${this.port}`;
             } else {
+                disconnectButton.disabled = false;
                 logOutput.textContent = `Failed to disconnect from ${this.address} at port ${this.port}`;
-            }
-        } else {
-            hostInput.disabled = true;
-            portInput.disabled = true;
-            logOutput.textContent = "Trying to connect...";
-            connectButton.disabled = true;
-            // connect to server
-            const connected = await this.connectToServer();
-            if (connected) {
-                connectButton.textContent = "Disconnect";
-                connectButton.disabled = false;
-                logOutput.textContent = `Successfully connected to ${this.address} at port ${this.port}`;
-            } else {
-                hostInput.disabled = false;
-                portInput.disabled = false;
-                connectButton.textContent = "Connect";
-                connectButton.disabled = false;
-                logOutput.textContent = `Failed to connect to ${this.address} at port ${this.port}`;
             }
         }
     }
@@ -78,15 +113,20 @@ class SocketConnection extends HTMLElement {
      * Disconnect from server.
      */
     async disconnectFromServer(): Promise<boolean> {
-        if (this.socket) {
-            this.socket.close();
+        try {
+            if (this.socket) {
+                await this.socket.close();
+            }
+        } catch (e) {
+            console.log(e);
+            return Promise.resolve(false);
         }
         this.socket = undefined;
         return Promise.resolve(true);
     }
 
     /**
-     * Connect to server and update the UI.
+     * Connect to server.
      */
     async connectToServer(): Promise<boolean> {
         try {
@@ -105,14 +145,6 @@ class SocketConnection extends HTMLElement {
             await this.disconnectFromServer();
             return Promise.resolve(false);
         }
-        
-        // Do something random for now
-        const writer = this.connection.writable.getWriter();
-        const encoder = new TextEncoder();
-        writer.write(encoder.encode('Hello Potatoh!'));
-        writer.write(encoder.encode('Another potatoh!'));
-        writer.releaseLock();
-        // this.connection.writable.close();
 
         return Promise.resolve(true);
 

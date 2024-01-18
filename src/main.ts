@@ -5,6 +5,8 @@ const server = new TCPServerSocket('::');
 let address: string;
 let port: number;
 let connections = 0;
+let serverInfo : HTMLParagraphElement;
+let addSocketButton : HTMLButtonElement;
 
 
 
@@ -14,7 +16,12 @@ collectConnections(
     address = a;
     port = p;
     console.log(`Server listening on ${address}:${port}`);
-
+    if (serverInfo) {
+      serverInfo.textContent = `Server listening on ${address} at port ${port}`;
+    }
+    if (addSocketButton) {
+      addSocketButton.disabled = false;
+    }
     setup();
   },
   async (connection: TCPSocket) => {
@@ -46,6 +53,19 @@ async function setup() {
   await socket.closed;
 }
 
+document.addEventListener('DOMContentLoaded', async() => {
+  serverInfo = document.getElementById('serverInfo') as HTMLParagraphElement;
+  addSocketButton = document.getElementById('addSocketButton') as HTMLButtonElement;
+  const socketsInfo = document.getElementById('socketConnections') as HTMLElement;
+
+  addSocketButton.addEventListener('click', async () => {
+    const newSocketComponent = document.createElement("socket-connection");
+    newSocketComponent.setAttribute('address', address);
+    newSocketComponent.setAttribute('port', port.toString());
+    socketsInfo.appendChild(newSocketComponent);
+
+ });
+});
 
 
 // let connectedSocket;

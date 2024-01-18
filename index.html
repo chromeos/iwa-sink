@@ -12,16 +12,19 @@
   </head>
   <body>
     <h1>IWA Kitchen Sink</h1>
-    <socket-connection></socket-connection>
-    <socket-connection></socket-connection>
+    <p id="serverInfo"></p>
+    <button id="addSocketButton" disabled="true">Create new socket connection</button>
+    <div id="socketConnections">
+      <h2>Current socket connections</h2>
+    </div>
     <template id="socket-connection">
       <p id="log">Let's make a socket connection!</p>
-      <label for="hostname">Hostname</label>
-      <input type="text" id="hostname" name="hostname" placeholder="hostname">
 
-      <label for="port">Port</label>
-      <input type="text" id="port" name="port" placeholder="123">
-      <button id="connectButton">Connect</button>
+      <label for="messageInput">send message</label>
+      <input type="text" id="messageInput" name="messageInput" placeholder="Hello World!">
+
+      <button id="sendButton">Send</button>
+      <button id="disconnectButton">Disconnect</button>
 
     </template>
 
