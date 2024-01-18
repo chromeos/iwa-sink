@@ -26,6 +26,14 @@ collectConnections(
   async (connection: TCPSocket) => {
     connections++;
     serverElem.setAttribute('connections', connections.toString());
+
+    // TODO: Setup echo back to all connected servers
+    serverElem.addEventListener('send', (e: CustomEvent) => {
+      const data = e.detail;
+      console.log(data)
+      // connection.send(data);
+    }
+    );
     
     await readStream(connection, (value: Uint8Array) => {
       console.log(value.byteLength)
@@ -45,6 +53,7 @@ async function setup() {
   const serverAnchor = document.getElementById('socketServer') as HTMLElement;
   serverElem.setAttribute('address', address);
   serverElem.setAttribute('port', port.toString());
+  serverElem.server = server;
   serverAnchor.appendChild(serverElem);
  
 }

@@ -79,6 +79,8 @@ class SocketServer extends HTMLElement {
     const shadow = this.attachShadow({ mode: 'open' });
     const template = document.getElementById('socket-server')?.content.cloneNode(true);
 
+    console.log(this.server)
+
     // Add values to template
     this.portElement = template.querySelector('#port') as HTMLElement;
 
