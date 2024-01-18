@@ -37,6 +37,11 @@ class SocketConnection extends HTMLElement {
         const messageInput = template.querySelector('#messageInput');
         const sendButton = template.querySelector('#sendButton');
         const disconnectButton = template.querySelector('#disconnectButton');
+
+        const closeEvent = new CustomEvent('close', {
+            bubbles: true,
+            cancelable: false
+        });
         
 
         // automatically connect to server
@@ -54,16 +59,19 @@ class SocketConnection extends HTMLElement {
         }
 
 
-        sendButton.addEventListener('click', async () => {
+        sendButton.addEventListener('click', async (e) => {
+            e.preventDefault();
             disconnectButton.disabled = true;
             await this.sendButtonCallback(messageInput, sendButton, logOutput);
             disconnectButton.disabled = false;
+            messageInput.value = "";
          });
 
         disconnectButton.addEventListener('click', async () => {
             sendButton.disabled = true;
             messageInput.disabled = true;
             await this.disconnectButtonCallback(disconnectButton, logOutput);
+            this.dispatchEvent(closeEvent);
             // TODO Remove the component on disconnect instead of just disabling stuff
         });
 

@@ -25,18 +25,41 @@
     
     <!-- Socket Connection Template -->
     <template id="socket-connection">
-      <p id="log">Let's make a socket connection!</p>
+      <div class="container">
+        <p id="log">Let's make a socket connection!</p>
 
-      <!-- TODO: Update the web component to account for this being in a form -->
-      <!-- <form id="form"> -->
-        <label for="messageInput">send message</label>
-      <input type="text" id="messageInput" name="messageInput" placeholder="Hello World!">
-
-      <button id="sendButton">Send</button>
-      <!-- </form> -->
+        <!-- TODO: Update the web component to account for this being in a form -->
+        <form id="form">
+          <label for="messageInput">Send a message</label>
+        <input type="text" id="messageInput" name="messageInput">
+  
+        <button id="sendButton">Send</button>
+        </form>
+        
+        <button id="disconnectButton">Disconnect</button>
+  
+      </div>
       
-      <button id="disconnectButton">Disconnect</button>
+      <style>
+        form {
+          display: flex;
+          flex-direction: column;
+        }
 
+        button {
+          width: min-content;
+          margin-top: 1rem;
+        }
+
+        #disconnectButton {
+          align-self: flex-end
+        }
+
+        .container {
+          display: flex;
+          flex-direction: column;
+        }
+      </style>
     </template>
 
     <!-- Socket Server Template -->
