@@ -37,6 +37,7 @@ class SocketConnection extends HTMLElement {
         const messageInput = template.querySelector('#messageInput');
         const sendButton = template.querySelector('#sendButton');
         const disconnectButton = template.querySelector('#disconnectButton');
+        
 
         // automatically connect to server
         logOutput.textContent = "Trying to connect...";

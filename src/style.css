@@ -1,11 +1,8 @@
-controlledframe {
-  display: block;
-  height: 50vh;
-  width: 100vw;
-  border: 1px solid black;
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
-
-body {
-  background: red;
+.container--header {
+  grid-column: 1 / -1;
 }

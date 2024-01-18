@@ -1,13 +1,15 @@
 import { collectConnections, readStream } from "./streams";
+import './socket-connection';
+import './socket-server';
 
 const server = new TCPServerSocket('::');
 
 let address: string;
 let port: number;
 let connections = 0;
-let serverInfo : HTMLParagraphElement;
 let addSocketButton : HTMLButtonElement;
-
+const serverElem = document.createElement('socket-server');
+let bytes = 0;
 
 
 collectConnections(
@@ -16,9 +18,6 @@ collectConnections(
     address = a;
     port = p;
     console.log(`Server listening on ${address}:${port}`);
-    if (serverInfo) {
-      serverInfo.textContent = `Server listening on ${address} at port ${port}`;
-    }
     if (addSocketButton) {
       addSocketButton.disabled = false;
     }
@@ -26,35 +25,42 @@ collectConnections(
   },
   async (connection: TCPSocket) => {
     connections++;
-    console.log(`There are currently ${connections} connections`);
+    serverElem.setAttribute('connections', connections.toString());
+    
     await readStream(connection, (value: Uint8Array) => {
+      console.log(value.byteLength)
+      bytes += value.byteLength;
+      serverElem.setAttribute('bytes', bytes.toString());
       const decoder = new TextDecoder();
-      console.log(decoder.decode(value));
+      serverElem.setAttribute('log', decoder.decode(value));
     });
     connections--;
+    serverElem.setAttribute('connections', connections.toString());
     connection.close();
     console.log('Closed a connection');
-    console.log(`There are currently ${connections} connections`);
+   
 })
 
-console.log('Hello World')
 // const {readable, localAddress, localPort} = await server.opened;
 
 // let reader = readable.getReader();
 
 async function setup() {
+  const serverAnchor = document.getElementById('socketServer') as HTMLElement;
+  serverElem.setAttribute('address', address);
+  serverElem.setAttribute('port', port.toString());
+  serverAnchor.appendChild(serverElem);
   // Create demo socket
-  const socket = new TCPSocket(address, port);
-  const connection = await socket.opened;
-  const writer = connection.writable.getWriter();
-  const encoder = new TextEncoder();
-  writer.write(encoder.encode('Hello from the server!'));
-  writer.write(encoder.encode('And another one!'));
-  await socket.closed;
+  // const socket = new TCPSocket(address, port);
+  // const connection = await socket.opened;
+  // const writer = connection.writable.getWriter();
+  // const encoder = new TextEncoder();
+  // writer.write(encoder.encode('Hello from the server!'));
+  // writer.write(encoder.encode('And another one!'));
+  // await socket.closed;
 }
 
 document.addEventListener('DOMContentLoaded', async() => {
-  serverInfo = document.getElementById('serverInfo') as HTMLParagraphElement;
   addSocketButton = document.getElementById('addSocketButton') as HTMLButtonElement;
   const socketsInfo = document.getElementById('socketConnections') as HTMLElement;
 

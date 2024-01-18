@@ -7,25 +7,48 @@
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="stylesheet" href="/src/style.css">
     <script type="module" defer src="/src/main.ts"></script>
-    <script type="module" src="/src/socket-connection.ts"></script>
-    <title>Vite + TS</title>
+    <title>IWA Kitchen Sink - TCP Sockets</title>
   </head>
   <body>
-    <h1>IWA Kitchen Sink</h1>
-    <p id="serverInfo"></p>
-    <button id="addSocketButton" disabled="true">Create new socket connection</button>
-    <div id="socketConnections">
-      <h2>Current socket connections</h2>
+    <div class="container">
+      <header class="container--header">
+        <h1>IWA Kitchen Sink - TCP Sockets</h1>
+      <button id="addSocketButton" disabled="true">Create new socket connection</button>
+      </header>
+      
+      <div id="socketConnections" class="container--connections">
+        <h2>Current socket connections</h2>
+      </div>
+      <div id="socketServer" class="container--server"></div>
+  
     </div>
+    
+    <!-- Socket Connection Template -->
     <template id="socket-connection">
       <p id="log">Let's make a socket connection!</p>
 
-      <label for="messageInput">send message</label>
+      <!-- TODO: Update the web component to account for this being in a form -->
+      <!-- <form id="form"> -->
+        <label for="messageInput">send message</label>
       <input type="text" id="messageInput" name="messageInput" placeholder="Hello World!">
 
       <button id="sendButton">Send</button>
+      <!-- </form> -->
+      
       <button id="disconnectButton">Disconnect</button>
 
+    </template>
+
+    <!-- Socket Server Template -->
+    <template id="socket-server">
+      <header>
+        <p>Server listening on <span id="address"></span> at port <span id="port"></span></p>
+        <p>Connections: <span id="connections"></span></p>
+        <p>Total bytes received: <span id="bytes"></span></p>
+      </header>
+
+      <p id="log"></p>
+      
     </template>
 
     <!-- <controlledframe id="view" src="https://example.com" partition="persist:exampleframe"></controlledframe>
