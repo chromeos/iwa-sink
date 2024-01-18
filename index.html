@@ -48,7 +48,11 @@
         <p>Total bytes received: <span id="bytes"></span></p>
       </header>
 
-      <p id="log"></p>
+      <div class="log">
+        <h2 id="log-header">Waiting for content</h2>
+        <p id="log"></p>
+      </div>
+      
       
       <style>
         * {
@@ -69,17 +73,40 @@
           }
         }
 
-        #log {
+        .log {
           margin-top: 1rem;
+        }
+
+        #log-header {
+          font-size: .8rem;
+          margin: 0;
+          line-height: 1;
+          padding: 0;
+        }
+
+        #log {
+
           white-space: pre-wrap;
           font-family: monospace;
           background: #333;
           color: #fff;
-          padding: 1rem;
+          padding: 1rem .5rem;
           width: 100%;
           font-size: 1rem;
-          line-height: 1.5;
-          min-height: 3.5rem;
+
+          &:empty::after {
+            content: ' |';
+            animation: blink 1s infinite;
+            animation-fill-mode: forwards;
+            animation-timing-function: steps(3, end);
+          }
+        }
+
+        @keyframes blink {
+          0% { opacity: 1; }
+     49% { opacity: 1; }
+     50% { opacity: 0; }
+    100% { opacity: 0; }
         }
       </style>
     </template>
