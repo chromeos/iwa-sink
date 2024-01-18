@@ -64,6 +64,7 @@ class SocketConnection extends HTMLElement {
             sendButton.disabled = true;
             messageInput.disabled = true;
             await this.disconnectButtonCallback(disconnectButton, logOutput);
+            // TODO Remove the component on disconnect instead of just disabling stuff
         });
 
         shadow.append( template );

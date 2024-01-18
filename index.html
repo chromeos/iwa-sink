@@ -42,6 +42,7 @@
     <!-- Socket Server Template -->
     <template id="socket-server">
       <header>
+        <h2>TCP Server</h2>
         <p>Server listening on <span id="address"></span> at port <span id="port"></span></p>
         <p>Connections: <span id="connections"></span></p>
         <p>Total bytes received: <span id="bytes"></span></p>
@@ -49,6 +50,38 @@
 
       <p id="log"></p>
       
+      <style>
+        * {
+          box-sizing: border-box;
+
+        }
+        p {
+          margin: 0;
+        }
+
+        header {
+          display: flex;
+          flex-direction: column;
+          gap: .25rem;
+
+          span {
+            font-weight: bold;
+          }
+        }
+
+        #log {
+          margin-top: 1rem;
+          white-space: pre-wrap;
+          font-family: monospace;
+          background: #333;
+          color: #fff;
+          padding: 1rem;
+          width: 100%;
+          font-size: 1rem;
+          line-height: 1.5;
+          min-height: 3.5rem;
+        }
+      </style>
     </template>
 
     <!-- <controlledframe id="view" src="https://example.com" partition="persist:exampleframe"></controlledframe>
