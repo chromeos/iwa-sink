@@ -1,6 +1,7 @@
 import { collectConnections, readStream, writeStream } from "./streams";
 import './socket-connection';
 import './socket-server';
+import './socket-log';
 
 const server = new TCPServerSocket('::');
 

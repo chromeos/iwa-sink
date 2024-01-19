@@ -1,5 +1,3 @@
-
-
 class SocketServer extends HTMLElement {
   server: TCPServerSocket | undefined;
   connections: number | undefined;
@@ -12,7 +10,6 @@ class SocketServer extends HTMLElement {
   connectionsElement: HTMLElement | undefined;
   bytesElement: HTMLElement | undefined;
   logElement: HTMLElement | undefined;
-  logHeader: HTMLElement | undefined;
 
   constructor() {
     super();
@@ -40,10 +37,9 @@ class SocketServer extends HTMLElement {
     }
 
     if (this.logElement) {
-      if (this.log && this.logHeader) {
-        this.logHeader.textContent = 'Latest transmission'
+      if (this.log) {
+        this.logElement.setAttribute('input', this.log || '')
       }
-      this.logElement.textContent = this.log || '';
     }
   }
 
@@ -91,7 +87,6 @@ class SocketServer extends HTMLElement {
     this.bytesElement = template.querySelector('#bytes') as HTMLElement;
 
     this.logElement = template.querySelector('#log') as HTMLElement;
-    this.logHeader = template.querySelector('#log-header') as HTMLElement;
 
     const messageInput = template.querySelector('#messageInput');
     const sendButton = template.querySelector('#sendButton');

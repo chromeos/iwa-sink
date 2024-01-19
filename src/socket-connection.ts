@@ -7,6 +7,7 @@ class SocketConnection extends HTMLElement {
     address: string | undefined;
     port: number | undefined;
     incomingContent: HTMLElement | undefined;
+    logElement: HTMLElement | undefined;
 
     constructor() {
         super();
@@ -26,9 +27,9 @@ class SocketConnection extends HTMLElement {
             this.port = parseInt(newValue);
         }
 
-        if (property === 'log' && this.incomingContent) {
+        if (property === 'log' && this.logElement) {
             console.log(`incoming content ${newValue}`);
-            this.incomingContent.textContent = newValue;
+            this.logElement?.setAttribute('input', newValue);
         }
     }
     /**
@@ -39,13 +40,13 @@ class SocketConnection extends HTMLElement {
 
         const template = document.getElementById('socket-connection')?.content.cloneNode(true);
 
-        const logOutput = template.querySelector('#log');
+        const logOutput = template.querySelector('#connection');
 
         const messageInput = template.querySelector('#messageInput');
         const sendButton = template.querySelector('#sendButton');
         const disconnectButton = template.querySelector('#disconnectButton');
 
-        this.incomingContent = template.querySelector('#incomingContent');
+        this.logElement = template.querySelector('#log');
         
 
         // automatically connect to server
