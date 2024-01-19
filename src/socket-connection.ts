@@ -3,16 +3,17 @@
  */
 class SocketConnection extends HTMLElement {
     socket: TCPSocket | undefined;
-    connection: TCPSocketOpenInfo | undefined;
+    reader: ReadableStreamDefaultReader | undefined;
     address: string | undefined;
     port: number | undefined;
+    incomingContent: HTMLElement | undefined;
 
     constructor() {
         super();
     }
 
     static get observedAttributes() {
-        return ['address', 'port'];
+        return ['address', 'port', 'log'];
     }
 
     attributeChangedCallback(property : string, oldValue : string, newValue : string) {
@@ -24,6 +25,11 @@ class SocketConnection extends HTMLElement {
         if (property === 'port') {
             this.port = parseInt(newValue);
         }
+
+        if (property === 'log' && this.incomingContent) {
+            console.log(`incoming content ${newValue}`);
+            this.incomingContent.textContent = newValue;
+        }
     }
     /**
      * Setup when socket connection component is appended to DOM.
@@ -34,14 +40,12 @@ class SocketConnection extends HTMLElement {
         const template = document.getElementById('socket-connection')?.content.cloneNode(true);
 
         const logOutput = template.querySelector('#log');
+
         const messageInput = template.querySelector('#messageInput');
         const sendButton = template.querySelector('#sendButton');
         const disconnectButton = template.querySelector('#disconnectButton');
 
-        const closeEvent = new CustomEvent('close', {
-            bubbles: true,
-            cancelable: false
-        });
+        this.incomingContent = template.querySelector('#incomingContent');
         
 
         // automatically connect to server
@@ -62,7 +66,16 @@ class SocketConnection extends HTMLElement {
         sendButton.addEventListener('click', async (e) => {
             e.preventDefault();
             disconnectButton.disabled = true;
-            await this.sendButtonCallback(messageInput, sendButton, logOutput);
+
+            const sendEvent = new CustomEvent('send', {
+                bubbles: true,
+                cancelable: false,
+                detail: {
+                message: messageInput.value,
+                }
+            });
+            this.dispatchEvent(sendEvent);
+
             disconnectButton.disabled = false;
             messageInput.value = "";
          });
@@ -71,32 +84,10 @@ class SocketConnection extends HTMLElement {
             sendButton.disabled = true;
             messageInput.disabled = true;
             await this.disconnectButtonCallback(disconnectButton, logOutput);
-            this.dispatchEvent(closeEvent);
-            // TODO Remove the component on disconnect instead of just disabling stuff
         });
 
         shadow.append( template );
 
-    }
-    /**
-     * Callback to handle send message button click events.
-     * Sends text input to connected server.
-     */
-    async sendButtonCallback(messageInput : HTMLInputElement, sendButton : HTMLButtonElement, logOutput : HTMLParagraphElement) {
-
-        if (this.socket && this.connection) {
-            logOutput.textContent = "Trying to send message...";
-            sendButton.disabled = true;
-
-            const writer = this.connection.writable.getWriter();
-            const encoder = new TextEncoder();
-            writer.write(encoder.encode(messageInput.value));
-            writer.releaseLock();
-
-            logOutput.textContent = `Message "${messageInput.value}" sent to ${this.address} at port ${this.port}`;
-            sendButton.disabled = false;
-
-        }
     }
 
     /**
@@ -112,6 +103,11 @@ class SocketConnection extends HTMLElement {
             const disconnected = await this.disconnectFromServer();
             if (disconnected) {
                 logOutput.textContent = `Disconnected from ${this.address} at port ${this.port}`;
+                const closeEvent = new CustomEvent('close', {
+                    bubbles: true,
+                    cancelable: false
+                });
+                this.dispatchEvent(closeEvent);
             } else {
                 disconnectButton.disabled = false;
                 logOutput.textContent = `Failed to disconnect from ${this.address} at port ${this.port}`;
@@ -125,6 +121,9 @@ class SocketConnection extends HTMLElement {
     async disconnectFromServer(): Promise<boolean> {
         try {
             if (this.socket) {
+                if (this.reader) {
+                    this.reader.releaseLock();
+                }
                 await this.socket.close();
             }
         } catch (e) {
@@ -148,8 +147,6 @@ class SocketConnection extends HTMLElement {
             if (!this.socket) {
                 return Promise.resolve(false);
             }
-            
-            this.connection = await this.socket.opened;
         } catch (e) {
             console.log(e);
             await this.disconnectFromServer();

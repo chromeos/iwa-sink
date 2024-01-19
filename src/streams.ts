@@ -1,9 +1,4 @@
-export async function readStream(socket: TCPSocket, cb: (value: Uint8Array) => void): Promise<void> {
-  // Wait for the socket to be opened
-  const connection = await socket.opened;
-  // Get a reader to read from the socket
-  const reader = connection?.readable.getReader();
-
+export async function readStream(reader : ReadableStreamDefaultReader, cb: (value: Uint8Array) => void): Promise<void> {
   // Read from the socket until it's closed
   while (reader) {
     // Wait for the next chunk
@@ -22,6 +17,16 @@ export async function readStream(socket: TCPSocket, cb: (value: Uint8Array) => v
   }
 }
 
+export async function writeStream(socket: TCPSocket, message: string) : Promise<void> {
+  // Wait for the socket to be opened
+  const connection = await socket.opened;
+  // Get a writer to write to the socket
+  const writer = connection?.writable.getWriter();
+  const encoder = new TextEncoder();
+  writer.write(encoder.encode(message));
+  writer.releaseLock();
+
+}
 export async function collectConnections(server: TCPServerSocket, infoCB: (address: string, port: number) => void, connectionCB: (value: TCPSocket) => Promise<void>): Promise<void> {
   // Wait for the server to be opened
   const {readable, localAddress, localPort} = await server.opened;

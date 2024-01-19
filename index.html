@@ -36,6 +36,11 @@
         <button id="sendButton">Send</button>
         </form>
         
+        <div class="container">
+          <h2 id="incoming-header">Incoming content</h2>
+          <p id="incomingContent"></p>
+        </div>
+
         <button id="disconnectButton">Disconnect</button>
   
       </div>
@@ -51,6 +56,13 @@
           margin-top: 1rem;
         }
 
+        #incoming-header {
+          font-size: .8rem;
+          margin: 0;
+          line-height: 1;
+          padding: 0;
+        }
+
         #disconnectButton {
           align-self: flex-end
         }
@@ -58,6 +70,7 @@
         .container {
           display: flex;
           flex-direction: column;
+          margin-top: 1rem;
         }
       </style>
     </template>
@@ -71,11 +84,19 @@
         <p>Total bytes received: <span id="bytes"></span></p>
       </header>
 
-      <div class="log">
+      <div class="container">
         <h2 id="log-header">Waiting for content</h2>
         <p id="log"></p>
       </div>
       
+      <div class="container">
+        <form id="form">
+          <label for="messageInput">Send a message</label>
+        <input type="text" id="messageInput" name="messageInput">
+
+        <button id="sendButton">Send</button>
+        </form>
+      </div>
       
       <style>
         * {
@@ -96,7 +117,7 @@
           }
         }
 
-        .log {
+        .container {
           margin-top: 1rem;
         }
 

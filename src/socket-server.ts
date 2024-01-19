@@ -93,6 +93,22 @@ class SocketServer extends HTMLElement {
     this.logElement = template.querySelector('#log') as HTMLElement;
     this.logHeader = template.querySelector('#log-header') as HTMLElement;
 
+    const messageInput = template.querySelector('#messageInput');
+    const sendButton = template.querySelector('#sendButton');
+
+    sendButton.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const sendEvent = new CustomEvent('send', {
+        bubbles: true,
+        cancelable: false,
+        detail: {
+          message: messageInput.value,
+        }
+      });
+      this.dispatchEvent(sendEvent);
+      messageInput.value = "";
+   });
+
     shadow.append(template);
     this.update();
   }

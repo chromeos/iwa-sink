@@ -1,4 +1,4 @@
-import { collectConnections, readStream } from "./streams";
+import { collectConnections, readStream, writeStream } from "./streams";
 import './socket-connection';
 import './socket-server';
 
@@ -23,19 +23,23 @@ collectConnections(
     }
     setup();
   },
-  async (connection: TCPSocket) => {
+  async (socket: TCPSocket) => {
     connections++;
     serverElem.setAttribute('connections', connections.toString());
 
     // TODO: Setup echo back to all connected servers
     serverElem.addEventListener('send', (e: CustomEvent) => {
-      const data = e.detail;
-      console.log(data)
-      // connection.send(data);
+      const data = e.detail.message;
+      console.log(data);
+      writeStream(socket, data);
     }
     );
     
-    await readStream(connection, (value: Uint8Array) => {
+    // Wait for the socket to be opened
+    const connection = await socket.opened;
+    // Get a reader to read from the socket
+    const reader = connection.readable.getReader();
+    await readStream(reader, (value: Uint8Array) => {
       console.log(value.byteLength)
       bytes += value.byteLength;
       serverElem.setAttribute('bytes', bytes.toString());
@@ -44,7 +48,7 @@ collectConnections(
     });
     connections--;
     serverElem.setAttribute('connections', connections.toString());
-    connection.close();
+    socket.close();
     console.log('Closed a connection');
 })
 
@@ -67,8 +71,24 @@ document.addEventListener('DOMContentLoaded', async() => {
     newSocketComponent.setAttribute('address', address);
     newSocketComponent.setAttribute('port', port.toString());
     socketsInfo.appendChild(newSocketComponent);
+
+    const connection = await newSocketComponent.socket.opened;
+    const reader = connection.readable.getReader();
+    newSocketComponent.reader = reader;
+
     newSocketComponent.addEventListener('close', () => {
       socketsInfo.removeChild(newSocketComponent);
+    });
+
+
+    newSocketComponent.addEventListener('send', (e: CustomEvent) => {
+      const data = e.detail.message;
+      writeStream(newSocketComponent.socket, data);
+    });
+
+    await readStream(reader, (value: Uint8Array) => {
+      const decoder = new TextDecoder();
+      newSocketComponent.setAttribute('log', decoder.decode(value));
     });
 
  });
