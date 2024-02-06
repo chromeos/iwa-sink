@@ -3,6 +3,14 @@ import './socket-connection';
 import './socket-server';
 import './socket-log';
 
+// const screenDetails = await window.getScreenDetails();
+
+document.getElementById('borderless').addEventListener('click', async (e) => {
+  e.preventDefault();
+  const screenDetails = await window.getScreenDetails();
+  console.log(screenDetails);
+});
+
 const server = new TCPServerSocket('::');
 
 let address: string;
