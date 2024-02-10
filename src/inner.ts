@@ -1,11 +1,9 @@
-import './style.css'
+import './style.css';
 // import javascriptLogo from './javascript.svg'
 // import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import { setupCounter } from './counter.ts';
 
 const app = document.querySelector('#app');
-
-
 
 if (app) {
   const wrapper = document.createElement('div');
@@ -22,7 +20,10 @@ if (app) {
 
   // Set up JavaScript link and logo
   const javascriptLink = document.createElement('a');
-  javascriptLink.setAttribute('href', 'https://developer.mozilla.org/en-US/docs/Web/JavaScript');
+  javascriptLink.setAttribute(
+    'href',
+    'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
+  );
   javascriptLink.setAttribute('target', '_blank');
   const jsLinkLogo = document.createElement('img');
   jsLinkLogo.setAttribute('src', '/typescript.svg');
@@ -52,9 +53,7 @@ if (app) {
   wrapper.appendChild(title);
   wrapper.appendChild(card);
   wrapper.appendChild(readTheDocs);
-  app.appendChild(wrapper);  
+  app.appendChild(wrapper);
 
-  setupCounter(counterButton)
+  setupCounter(counterButton);
 }
-
-

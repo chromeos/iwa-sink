@@ -5,70 +5,78 @@
 </div>
 
 <button id="borderless">
-  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" aria-label="Go Borderless!"><path d="M120-120v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-320v-80h80v80h-80Zm0-320v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-320v-80h80v80h-80Zm0-320v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Z"/></svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24"
+    viewBox="0 -960 960 960"
+    width="24"
+    aria-label="Go Borderless!"
+  >
+    <path
+      d="M120-120v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-320v-80h80v80h-80Zm0-320v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-320v-80h80v80h-80Zm0-320v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Z"
+    />
+  </svg>
 </button>
 
 <style>
   #border {
-  height: 2rem;
+    height: 2rem;
 
-  background: repeating-linear-gradient(
-    45deg,
-    #ea4335,
-    #ea4335 10px,
-    white 10px,
-    white 20px
-  );
-  justify-content: center;
-  align-items: center;
-  -webkit-app-region: drag;
-  animation: marquee 10s linear infinite;
-  display: none;
-
-  p {
-    margin: 0;
-    background: white;
-    padding: .15rem;
-    border-radius: .25rem;
-  }
-}
-
-#borderless {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: .5rem;
-  border-radius: 50%;
-  border: 0;
-  position: absolute;
-  right: 1rem;
-  bottom: 1rem;
-  background-color: #ea4335;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-
-  svg {
-    fill: white;
-  }
-}
-
-@media (display-mode: borderless) {
-  #borderless {
+    background: repeating-linear-gradient(
+      45deg,
+      #ea4335,
+      #ea4335 10px,
+      white 10px,
+      white 20px
+    );
+    justify-content: center;
+    align-items: center;
+    -webkit-app-region: drag;
+    animation: marquee 10s linear infinite;
     display: none;
+
+    p {
+      margin: 0;
+      background: white;
+      padding: 0.15rem;
+      border-radius: 0.25rem;
+    }
   }
 
-  #border {
+  #borderless {
     display: flex;
-  }
-}
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 50%;
+    border: 0;
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    background-color: #ea4335;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 
-
-
-@keyframes marquee {
-  0% {
-    background-position-x: 100vw;
+    svg {
+      fill: white;
+    }
   }
-  100% {
-    background-position-x: -100%;
+
+  @media (display-mode: borderless) {
+    #borderless {
+      display: none;
+    }
+
+    #border {
+      display: flex;
+    }
   }
-}
+
+  @keyframes marquee {
+    0% {
+      background-position-x: 100vw;
+    }
+    100% {
+      background-position-x: -100%;
+    }
+  }
 </style>

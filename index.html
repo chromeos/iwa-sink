@@ -1,32 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="/src/style.css">
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="/src/style.css" />
     <script type="module" defer src="/src/main.ts"></script>
     <title>IWA Kitchen Sink - TCP Sockets</title>
   </head>
   <body>
     <div class="container">
-      
-        <!-- Load shared nav -->
-        <load src="src/components/nav.html" active="Direct Sockets" />
+      <!-- Load shared nav -->
+      <load src="src/components/nav.html" active="Direct Sockets" />
 
-     
-      
       <div id="socketConnections" class="container--connections">
         <h2>Current socket connections</h2>
-        <button id="addSocketButton" disabled="true">Create new socket connection</button>
+        <button id="addSocketButton" disabled="true">
+          Create new socket connection
+        </button>
       </div>
       <div id="socketServer" class="container--server">
         <h2>TCP Server</h2>
       </div>
-  
     </div>
-    
+
     <!-- Import Components -->
     <load src="src/components/socket-connection.html" />
     <load src="src/components/socket-log.html" />

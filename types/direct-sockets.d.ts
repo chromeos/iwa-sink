@@ -17,7 +17,7 @@
 /* https://wicg.github.io/direct-sockets/#dom-tcpsocketoptions */
 interface TCPSocketOptions {
   sendBufferSize?: number;
-  receiveBufferSize? : number;
+  receiveBufferSize?: number;
 
   noDelay?: boolean;
   keepAliveDelay?: number;
@@ -39,9 +39,11 @@ interface TCPSocketOpenInfo {
  * https://wicg.github.io/direct-sockets/#dom-tcpsocket
  */
 declare class TCPSocket {
-  constructor(remoteAddress: string,
-              remotePort: number,
-              options?: TCPSocketOptions);
+  constructor(
+    remoteAddress: string,
+    remotePort: number,
+    options?: TCPSocketOptions,
+  );
 
   opened: Promise<TCPSocketOpenInfo>;
   closed: Promise<void>;
@@ -69,8 +71,7 @@ interface TCPServerSocketOpenInfo {
  * https://wicg.github.io/direct-sockets/#dom-tcpserversocket
  */
 declare class TCPServerSocket {
-  constructor(localAddress: string,
-              options?: TCPServerSocketOptions);
+  constructor(localAddress: string, options?: TCPServerSocketOptions);
 
   opened: Promise<TCPServerSocketOpenInfo>;
   closed: Promise<void>;

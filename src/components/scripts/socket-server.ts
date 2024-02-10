@@ -38,17 +38,23 @@ class SocketServer extends HTMLElement {
 
     if (this.logElement) {
       if (this.log) {
-        this.logElement.setAttribute('input', this.log || '')
+        this.logElement.setAttribute('input', this.log || '');
       }
     }
   }
 
-  attributeChangedCallback(property: string, oldValue: string, newValue: string) {
+  attributeChangedCallback(
+    property: string,
+    oldValue: string,
+    newValue: string,
+  ) {
     if (oldValue === newValue) {
       return;
     }
 
-    console.log(`Attribute ${property} changed from ${oldValue} to ${newValue}`)
+    console.log(
+      `Attribute ${property} changed from ${oldValue} to ${newValue}`,
+    );
 
     switch (property) {
       case 'address':
@@ -73,18 +79,22 @@ class SocketServer extends HTMLElement {
 
   async connectedCallback() {
     const shadow = this.attachShadow({ mode: 'open' });
-    const template = document.getElementById('socket-server')?.content.cloneNode(true);
+    const template = document
+      .getElementById('socket-server')
+      ?.content.cloneNode(true);
 
-    console.log('IN')
+    console.log('IN');
 
-    console.log(this.server)
+    console.log(this.server);
 
     // Add values to template
     this.portElement = template.querySelector('#port') as HTMLElement;
 
     this.addressElement = template.querySelector('#address') as HTMLElement;
 
-    this.connectionsElement = template.querySelector('#connections') as HTMLElement;
+    this.connectionsElement = template.querySelector(
+      '#connections',
+    ) as HTMLElement;
 
     this.bytesElement = template.querySelector('#bytes') as HTMLElement;
 
@@ -100,11 +110,11 @@ class SocketServer extends HTMLElement {
         cancelable: false,
         detail: {
           message: messageInput.value,
-        }
+        },
       });
       this.dispatchEvent(sendEvent);
-      messageInput.value = "";
-   });
+      messageInput.value = '';
+    });
 
     shadow.append(template);
     this.update();

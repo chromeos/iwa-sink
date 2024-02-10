@@ -11,18 +11,23 @@ class SocketLog extends HTMLElement {
     return ['input'];
   }
 
-
-  attributeChangedCallback(property: string, oldValue: string, newValue: string) {
+  attributeChangedCallback(
+    property: string,
+    oldValue: string,
+    newValue: string,
+  ) {
     if (oldValue === newValue) {
       return;
     }
 
-    console.log(`Attribute: ${property} changed from ${oldValue} to ${newValue}`)
+    console.log(
+      `Attribute: ${property} changed from ${oldValue} to ${newValue}`,
+    );
 
     if (property === 'input') {
       this.input = newValue;
       if (this.header) {
-        this.header.textContent = "Latest transmission";
+        this.header.textContent = 'Latest transmission';
       }
       if (this.log) {
         this.log.textContent = newValue;
@@ -32,7 +37,9 @@ class SocketLog extends HTMLElement {
 
   async connectedCallback() {
     const shadow = this.attachShadow({ mode: 'open' });
-    const template = document.getElementById('socket-log')?.content.cloneNode(true);
+    const template = document
+      .getElementById('socket-log')
+      ?.content.cloneNode(true);
 
     // Add values to template
     this.header = template.querySelector('#log-header');

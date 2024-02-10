@@ -1,11 +1,9 @@
-import { defineConfig } from 'vite'
-import fs from 'fs'
-import injectHTML from 'vite-plugin-html-inject'
+import { defineConfig } from 'vite';
+import fs from 'fs';
+import injectHTML from 'vite-plugin-html-inject';
 
 export default defineConfig({
-  plugins: [
-    injectHTML()
-  ],
+  plugins: [injectHTML()],
   server: {
     port: 5193,
     strictPort: true,
@@ -17,6 +15,6 @@ export default defineConfig({
       protocol: 'wss',
       host: 'localhost',
       clientPort: 5193,
-    }
+    },
   },
-})
+});
