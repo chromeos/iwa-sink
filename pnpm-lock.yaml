@@ -5,15 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 devDependencies:
-  '@vitejs/plugin-basic-ssl':
-    specifier: ^1.0.2
-    version: 1.0.2(vite@5.0.10)
   typescript:
     specifier: ^5.2.2
     version: 5.3.3
   vite:
     specifier: ^5.0.8
     version: 5.0.10
+  vite-plugin-html-inject:
+    specifier: ^1.1.2
+    version: 1.1.2
 
 packages:
 
@@ -328,15 +328,6 @@ packages:
     dev: true
     optional: true
 
-  /@vitejs/plugin-basic-ssl@1.0.2(vite@5.0.10):
-    resolution: {integrity: sha512-DKHKVtpI+eA5fvObVgQ3QtTGU70CcCnedalzqmGSR050AzKZMdUzgC8KmlOneHWH8dF2hJ3wkC9+8FDVAaDRCw==}
-    engines: {node: '>=14.6.0'}
-    peerDependencies:
-      vite: ^3.0.0 || ^4.0.0 || ^5.0.0
-    dependencies:
-      vite: 5.0.10
-    dev: true
-
   /esbuild@0.19.11:
     resolution: {integrity: sha512-HJ96Hev2hX/6i5cDVwcqiJBBtuo9+FeIJOtZ9W1kA5M6AMJRHUZlpYZ1/SbEwtO0ioNAW8rUooVpC/WehY2SfA==}
     engines: {node: '>=12'}
@@ -425,6 +416,10 @@ packages:
     resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
     engines: {node: '>=14.17'}
     hasBin: true
+    dev: true
+
+  /vite-plugin-html-inject@1.1.2:
+    resolution: {integrity: sha512-4DWANEcAw73H5JLWTAI4EvXdSyoGqGq/Is9fTRjpF+SJLor58LNdqB+YYnK3FOLwx6LMTAn4z1hkiRyc52lYLg==}
     dev: true
 
   /vite@5.0.10:

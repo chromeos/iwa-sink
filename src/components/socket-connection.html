@@ -1,0 +1,50 @@
+<script type="module" src="/src/components/scripts/socket-connection.ts"></script>
+<template id="socket-connection">
+  <div class="container">
+    <p id="connection">Let's make a socket connection!</p>
+
+    <!-- TODO: Update the web component to account for this being in a form -->
+    <form id="form">
+      <label for="messageInput">Send a message</label>
+    <input type="text" id="messageInput" name="messageInput">
+
+    <button id="sendButton">Send</button>
+    </form>
+    
+    <div class="container">
+      <socket-log id="log"></socket-log>
+    </div>
+
+    <button id="disconnectButton">Disconnect</button>
+
+  </div>
+  
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    button {
+      width: min-content;
+      margin-top: 1rem;
+    }
+
+    #incoming-header {
+      font-size: .8rem;
+      margin: 0;
+      line-height: 1;
+      padding: 0;
+    }
+
+    #disconnectButton {
+      align-self: flex-end
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      margin-top: 1rem;
+    }
+  </style>
+</template>

@@ -1,0 +1,44 @@
+<script type="module" src="/src/components/scripts/socket-log.ts"></script>
+<template id="socket-log">
+  
+  <h2 id="log-header">Waiting for content</h2>
+  <p id="log"></p>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  #log-header {
+    font-size: .8rem;
+    margin: 0;
+    line-height: 1;
+    padding: 0;
+  }
+
+  #log {
+
+    white-space: pre-wrap;
+    font-family: monospace;
+    background: #333;
+    color: #fff;
+    padding: 1rem .5rem;
+    width: 100%;
+    font-size: 1rem;
+    margin: 0;
+
+    &:empty::after {
+      content: ' |';
+      animation: blink 1s infinite;
+      animation-fill-mode: forwards;
+      animation-timing-function: steps(3, end);
+    }
+  }
+
+  @keyframes blink {
+    0% { opacity: 1; }
+49% { opacity: 1; }
+50% { opacity: 0; }
+100% { opacity: 0; }
+  }
+</style>
+</template>

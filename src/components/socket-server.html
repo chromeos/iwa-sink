@@ -1,0 +1,58 @@
+<script type="module" src="/src/components/scripts/socket-server.ts"></script>
+<template id="socket-server">
+  <header>
+    <p>Server listening on <span id="address"></span> at port <span id="port"></span></p>
+    <p>Connections: <span id="connections"></span></p>
+    <p>Total bytes received: <span id="bytes"></span></p>
+  </header>
+
+  <div class="container">
+    <form id="form">
+      <label for="messageInput">Send a message</label>
+    <input type="text" id="messageInput" name="messageInput">
+
+    <button id="sendButton">Send</button>
+    </form>
+  </div>
+
+  <div class="container">
+    <socket-log id="log"></socket-log>
+  </div>
+  
+  
+  <style>
+    * {
+      box-sizing: border-box;
+
+    }
+    p {
+      margin: 0;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+
+      span {
+        font-weight: bold;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    button {
+      width: min-content;
+      margin-top: 1rem;
+    }
+
+    .container {
+      margin-top: 1rem;
+    }
+
+    
+  </style>
+</template>

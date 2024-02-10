@@ -1,25 +1,12 @@
 import { collectConnections, readStream, writeStream } from "./streams";
-import './socket-connection';
-import './socket-server';
-import './socket-log';
-
-// const screenDetails = await window.getScreenDetails();
-
-document.getElementById('borderless').addEventListener('click', async (e) => {
-  e.preventDefault();
-  const screenDetails = await window.getScreenDetails();
-  console.log(screenDetails);
-});
 
 const server = new TCPServerSocket('::');
-
 let address: string;
 let port: number;
 let connections = 0;
 let addSocketButton : HTMLButtonElement;
 const serverElem = document.createElement('socket-server');
 let bytes = 0;
-
 
 collectConnections(
   server,

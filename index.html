@@ -10,210 +10,26 @@
     <title>IWA Kitchen Sink - TCP Sockets</title>
   </head>
   <body>
-    <div id="border">
-      <p>This is a custom top border! Drag me!</p>
-    </div>
     <div class="container">
-      <header class="container--header">
-        <h1>IWA Kitchen Sink - TCP Sockets</h1>
-        <a href="/image.html">Images</a>
-        <a href="/inner.html">Inner</a>
-      <button id="addSocketButton" disabled="true">Create new socket connection</button>
-      <button id="borderless">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" aria-label="Go Borderless!"><path d="M120-120v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-320v-80h80v80h-80Zm0-320v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-320v-80h80v80h-80Zm0-320v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Z"/></svg>
-      </button>
-      </header>
+      
+        <!-- Load shared nav -->
+        <load src="src/components/nav.html" active="Direct Sockets" />
+
+     
       
       <div id="socketConnections" class="container--connections">
         <h2>Current socket connections</h2>
+        <button id="addSocketButton" disabled="true">Create new socket connection</button>
       </div>
-      <div id="socketServer" class="container--server"></div>
-  
-    </div>
-    
-    <!-- Socket Connection Template -->
-    <template id="socket-connection">
-      <div class="container">
-        <p id="connection">Let's make a socket connection!</p>
-
-        <!-- TODO: Update the web component to account for this being in a form -->
-        <form id="form">
-          <label for="messageInput">Send a message</label>
-        <input type="text" id="messageInput" name="messageInput">
-  
-        <button id="sendButton">Send</button>
-        </form>
-        
-        <div class="container">
-          <socket-log id="log"></socket-log>
-        </div>
-
-        <button id="disconnectButton">Disconnect</button>
-  
-      </div>
-      
-      <style>
-        form {
-          display: flex;
-          flex-direction: column;
-        }
-
-        button {
-          width: min-content;
-          margin-top: 1rem;
-        }
-
-        #incoming-header {
-          font-size: .8rem;
-          margin: 0;
-          line-height: 1;
-          padding: 0;
-        }
-
-        #disconnectButton {
-          align-self: flex-end
-        }
-
-        .container {
-          display: flex;
-          flex-direction: column;
-          margin-top: 1rem;
-        }
-      </style>
-    </template>
-
-    <!-- Log template -->
-    <template id="socket-log">
-  
-        <h2 id="log-header">Waiting for content</h2>
-        <p id="log"></p>
-      
-      <style>
-        * {
-          box-sizing: border-box;
-        }
-        #log-header {
-          font-size: .8rem;
-          margin: 0;
-          line-height: 1;
-          padding: 0;
-        }
-
-        #log {
-
-          white-space: pre-wrap;
-          font-family: monospace;
-          background: #333;
-          color: #fff;
-          padding: 1rem .5rem;
-          width: 100%;
-          font-size: 1rem;
-          margin: 0;
-
-          &:empty::after {
-            content: ' |';
-            animation: blink 1s infinite;
-            animation-fill-mode: forwards;
-            animation-timing-function: steps(3, end);
-          }
-        }
-
-        @keyframes blink {
-          0% { opacity: 1; }
-     49% { opacity: 1; }
-     50% { opacity: 0; }
-    100% { opacity: 0; }
-        }
-      </style>
-    </template>
-
-    <!-- Socket Server Template -->
-    <template id="socket-server">
-      <header>
+      <div id="socketServer" class="container--server">
         <h2>TCP Server</h2>
-        <p>Server listening on <span id="address"></span> at port <span id="port"></span></p>
-        <p>Connections: <span id="connections"></span></p>
-        <p>Total bytes received: <span id="bytes"></span></p>
-      </header>
-
-      <div class="container">
-        <form id="form">
-          <label for="messageInput">Send a message</label>
-        <input type="text" id="messageInput" name="messageInput">
-
-        <button id="sendButton">Send</button>
-        </form>
       </div>
-
-      <div class="container">
-        <socket-log id="log"></socket-log>
-      </div>
-      
-      
-      
-      <style>
-        * {
-          box-sizing: border-box;
-
-        }
-        p {
-          margin: 0;
-        }
-
-        header {
-          display: flex;
-          flex-direction: column;
-          gap: .25rem;
-
-          span {
-            font-weight: bold;
-          }
-        }
-
-        form {
-          display: flex;
-          flex-direction: column;
-        }
-
-        button {
-          width: min-content;
-          margin-top: 1rem;
-        }
-
-        .container {
-          margin-top: 1rem;
-        }
-
-        
-      </style>
-    </template>
-
-    <!-- <controlledframe id="view" src="https://example.com" partition="persist:exampleframe"></controlledframe>
-
-
-      
-      <button id="load_home">Home</button>
-      <button id="back">Back</button>
-      <button id="forward">Forward</button> -->
-    <!-- <h1>Hello World</h1>
-    <div id="app">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" alt="">
-        </a>
-        <a href="https://www.typescriptlang.org/" target="_blank">
-          <img src="/typescript.svg" alt="">
-        </a>
-        <h1>Vite + TypeScript</h1>
-        <div class="card">
-          <button id="counter" type="button"></button>
-        </div>
-        <p class="read-the-docs">
-          Click on the Vite and TypeScript logos to learn more
-        </p>
-      </div>
+  
     </div>
     
-    <script type="module" src="/src/main.ts"></script> -->
+    <!-- Import Components -->
+    <load src="src/components/socket-connection.html" />
+    <load src="src/components/socket-log.html" />
+    <load src="src/components/socket-server.html" />
   </body>
 </html>

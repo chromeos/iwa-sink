@@ -1,0 +1,64 @@
+<!-- Load the borderless button -->
+<load src="src/components/borderless.html" />
+
+<header class="container--header">
+<div class="nav">
+  <h1>IWA Kitchen Sink</h1>
+  <h2>{=$active}</h2>
+  <nav>
+    <ul>
+      <li>
+        <a href="/">Direct Sockets</a>
+      </li>
+      <li>
+        <a href="/cf.html">Controlled Frame</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+</header>
+
+<style>
+  .nav {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-block: 1rem;
+
+    &::after {
+      content: '';
+      height: 100%;
+      width: 100vw;
+      background: yellow;
+      display: block;
+      position: absolute;
+      z-index: -1;
+      left: calc((100vw - 100%) / 2 * -1);
+      top: 0;
+    }
+
+    h1 {
+      margin: 0;
+      padding: 0;
+      font-size: 2em;
+    }
+    h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 1.25em;
+    }
+
+    nav {
+      text-transform: lowercase;
+      margin-top: 1rem;
+      ul {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+</style>
