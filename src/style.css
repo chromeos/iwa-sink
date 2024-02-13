@@ -20,7 +20,9 @@ body {
   font-family: system-ui, sans-serif;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -29,6 +31,11 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   padding-inline: 1rem;
+  min-height: calc(100vh - 1rem);
+
+  &.cf {
+    grid-template-rows: min-content min-content auto;
+  }
 }
 
 .container--header {
@@ -38,4 +45,30 @@ body {
 h1,
 h2 {
   margin: 0;
+}
+
+controlledframe,
+#controls {
+  grid-column: 1 / -1;
+}
+
+#controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  label {
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+
+  input {
+    width: 100%;
+  }
 }
