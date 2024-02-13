@@ -22,12 +22,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="stylesheet" href="/src/style.css" />
+    <script type="module" src="/src/cf.ts"></script>
     <title>IWA Kitchen Sink - Controlled Frame</title>
   </head>
   <body>
-    <div class="container">
+    <div class="container cf">
       <!-- Load shared nav -->
       <load src="src/components/nav.html" active="Controlled Frame" />
+
+      <form id="controls">
+        <div class="form-control">
+          <label for="color">Background Color</label>
+          <input type="color" id="color" name="color" value="#ffffff" />
+        </div>
+        <div class="form-control">
+          <label for="lucky">What are you feeling?</label>
+          <input type="text" id="lucky" name="lucky" value="Lucky" />
+        </div>
+      </form>
+      <controlledframe id="cf" src="https://google.com" />
     </div>
   </body>
 </html>
