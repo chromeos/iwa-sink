@@ -29,6 +29,7 @@ body {
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: min-content auto;
   gap: 1rem;
   padding-inline: 1rem;
   min-height: calc(100vh - 1rem);
