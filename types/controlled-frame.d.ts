@@ -18,14 +18,17 @@
  * https://wicg.github.io/controlled-frame/#api-scripting
  */
 
-interface InjectDetails {
-  code: string;
-  file: string;
-}
+type InjectDetails =
+  | {
+      code: string;
+    }
+  | {
+      file: string;
+    };
 
 interface InjectionItems {
-  code: string;
-  files: string[];
+  code?: string;
+  files?: string[];
 }
 
 declare enum RunAt {
@@ -35,16 +38,16 @@ declare enum RunAt {
 }
 
 interface ContentScriptDetails {
-  all_frames: boolean;
-  css: InjectionItems;
-  exclude_globs: string[];
-  exclude_matches: string[];
-  include_globs: string[];
-  js: InjectionItems;
-  match_about_blank: boolean;
+  all_frames?: boolean;
+  css?: InjectionItems;
+  exclude_globs?: string[];
+  exclude_matches?: string[];
+  include_globs?: string[];
+  js?: InjectionItems;
+  match_about_blank?: boolean;
   matches: string[];
   name: string;
-  run_at: RunAt;
+  run_at?: RunAt;
 }
 
 /* Controlled Frame API
@@ -70,36 +73,36 @@ declare enum ItemType {
 }
 
 interface OnClickData {
-  checked: boolean;
+  checked?: boolean;
   editable: boolean;
-  frameId: number;
-  frameUrl: string;
-  linkUrl: string;
-  mediaType: string;
+  frameId?: number;
+  frameUrl?: string;
+  linkUrl?: string;
+  mediaType?: string;
   menuItemId: number | string;
-  pageUrl: string;
-  parentMenuItemId: number | string;
-  selectionText: string;
-  srcUrl: string;
-  wasChecked: boolean;
+  pageUrl?: string;
+  parentMenuItemId?: number | string;
+  selectionText?: string;
+  srcUrl?: string;
+  wasChecked?: boolean;
 }
 
 type ContextMenusEventListener = (data: OnClickData) => void;
 
 interface ContextMenusProperties {
-  checked: boolean;
-  context: ContextType[];
-  documentUrlPatterns: string;
-  enabled: boolean;
-  parentId: string;
-  targetUrlPatterns: string;
-  title: string;
-  type: ItemType;
-  onclick: ContextMenusEventListener;
+  checked?: boolean;
+  context?: ContextType[];
+  documentUrlPatterns?: string;
+  enabled?: boolean;
+  parentId?: string;
+  targetUrlPatterns?: string;
+  title?: string;
+  type?: ItemType;
+  onclick?: ContextMenusEventListener;
 }
 
 interface ContextMenusCreateProperties extends ContextMenusProperties {
-  id: string;
+  id?: string;
 }
 
 type ContextMenusCallback = () => void;
@@ -118,6 +121,22 @@ interface ContextMenus {
   ): void;
 }
 
+interface ClearDataOptions {
+  since?: number;
+}
+
+interface ClearDAtaTypeSet {
+  appcache?: boolean;
+  cache?: boolean;
+  cookies?: boolean;
+  fileSystems?: boolean;
+  indexedDB?: boolean;
+  localStorage?: boolean;
+  persistentCookies?: boolean;
+  sessionCookies?: boolean;
+  webSQL?: boolean;
+}
+
 /* https://wicg.github.io/controlled-frame/#html-element */
 interface ControlledFrame extends HTMLElement {
   src: string;
@@ -132,7 +151,7 @@ interface ControlledFrame extends HTMLElement {
   minwidth: string;
   partition: string;
 
-  readonly contentWindow?: WindowProxy;
+  readonly contentWindow: WindowProxy;
   readonly contextMenus: ContextMenus;
 
   // Navigation methods
@@ -140,23 +159,23 @@ interface ControlledFrame extends HTMLElement {
   canGoBack(): boolean;
   canGoForward(): boolean;
   forward(): Promise<void>;
-  go(relativeIndex: number): Promise<void>;
+  go(relativeIndex?: number): Promise<void>;
   reload(): void;
   stop(): void;
 
   // Scripting Methods
-  addContentScripts(contentScriptList: ContentScriptDetails[]): void;
+  addContentScripts(contentScriptList: ContentScriptDetails[]): Promise<void>;
   executeScript(details?: InjectDetails | {}): Promise<any>;
   insertCSS(details?: InjectDetails): Promise<void>;
-  removeContentScripts(scriptNameList: string[]): void;
+  removeContentScripts(scriptNameList: string[]): Promise<void>;
 
   // Configuration methods
-  clearData(): void;
-  getAudioState(): void;
-  getZoom(): void;
-  isAudioMuted(): void;
-  setAudioMuted(): void;
-  setZoom(): void;
+  clearData(options: ClearDataOptions = {}): Promise<void>;
+  getAudioState(): Promise<boolean>;
+  getZoom(): Promise<number>;
+  isAudioMuted(): Promise;
+  setAudioMuted(mute: boolean): void;
+  setZoom(zoomFactor: number): Promise<void>;
 
   // Capture methods
   captureVisibleRegion(): void;
