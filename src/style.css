@@ -37,6 +37,14 @@ body {
   &.cf {
     grid-template-rows: min-content min-content auto;
   }
+
+  @media (display-mode: borderless) {
+    grid-template-rows: min-content min-content auto;
+
+    &.cf {
+      grid-template-rows: min-content min-content min-content auto;
+    }
+  }
 }
 
 .container--header {
