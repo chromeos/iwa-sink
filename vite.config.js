@@ -68,4 +68,12 @@ export default defineConfig({
       clientPort: 5193,
     },
   },
+  build: {
+    rollupOptions: {
+      input: {
+        main: './index.html',
+        cf: './cf.html',
+      },
+    },
+  },
 });
