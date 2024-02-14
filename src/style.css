@@ -34,16 +34,12 @@ body {
   padding-inline: 1rem;
   min-height: calc(100vh - 1rem);
 
-  &.cf {
-    grid-template-rows: min-content min-content auto;
+  @media (display-mode: borderless) {
+    margin-top: 2rem;
   }
 
-  @media (display-mode: borderless) {
+  &.cf {
     grid-template-rows: min-content min-content auto;
-
-    &.cf {
-      grid-template-rows: min-content min-content min-content auto;
-    }
   }
 }
 

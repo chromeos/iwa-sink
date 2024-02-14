@@ -38,7 +38,9 @@
   #border {
     height: 2rem;
     width: 100vw;
-    transform: translateX(-1rem);
+    position: fixed;
+    top: 0;
+    left: 0;
 
     background: repeating-linear-gradient(
       45deg,
@@ -52,7 +54,6 @@
     -webkit-app-region: drag;
     animation: marquee 10s linear infinite;
     display: none;
-    margin-bottom: -1rem;
 
     p {
       margin: 0;
