@@ -53,7 +53,7 @@ If you wanted to do this for your own Vite project, follow the steps above, and 
   },
 ```
 
-You'll also need to ensure you have a valid `manifest.webmanifest` file (named exactly that) available from the root of your url (so it'd be available at `https://localhost:5193/manifest.webmanifest`) and that it includes a `version` field set to a SEMVER string and at least one valid icon. Putting it directly into the root of your `pubic` folder should be good enough. An example one may look like this:
+You'll also need to ensure you have a valid `manifest.webmanifest` file (named exactly that) available from inside a `.well-known` folder at the of your url (so it'd be available at `https://localhost:5193/.well-known/manifest.webmanifest`) and that it includes a `version` field set to a SEMVER string and at least one valid icon. Putting it directly into the root of your `pubic` folder should be good enough. An example one may look like this:
 
 ```json
 {
