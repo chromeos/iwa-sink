@@ -16,7 +16,7 @@ A demo showing off [Isolated Web Apps](https://github.com/WICG/isolated-web-apps
 - NodeJS v18 or higher
 - pnpm v8.9 or higher
 
-After downloading this repository and installing its dependencies, you'll need to install you'll need to set up a local development root certificate authority in Chrome to have a verified HTTPS certificate to use with the local dev server, as well as enable a few Chrome flags:
+After downloading this repository and installing its dependencies (`pnpm i`), you'll need to install you'll need to set up a local development root certificate authority in Chrome to have a verified HTTPS certificate to use with the local dev server, as well as enable a few Chrome flags:
 
 1. Generate a valid root certificate for the Vite project.
 
