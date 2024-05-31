@@ -5,7 +5,7 @@
   "version": "0.3.0",
   "icons": [
     {
-      "src": "images/icon.png",
+      "src": "/images/icon.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
