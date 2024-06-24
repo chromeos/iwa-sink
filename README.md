@@ -20,7 +20,7 @@ After downloading this repository and installing its dependencies (`pnpm i`), yo
 
 1. Generate a valid root certificate for the Vite project.
 
-- You can use [`mkcert`](https://github.com/FiloSottile/mkcert?tab=readme-ov-file) to generate a root cert on your computer, but if another tool is more accessible to you, you can use it. Take note of where the `rootCA.pem` file gets generated. If you're using `mkcert`, you can add `export CAROOT=”$HOME/certs` to your `.bashrc` file to direct where the file will be generated when running `mkcert -install`
+- You can use [`mkcert`](https://github.com/FiloSottile/mkcert?tab=readme-ov-file) to generate a root cert on your computer, but if another tool is more accessible to you, you can use it. Take note of where the `rootCA.pem` file gets generated. If you're using `mkcert`, you can add `export CAROOT=”$HOME/certs"` to your `.bashrc` file to direct where the file will be generated when running `mkcert -install`
 - Install the cert by going to `chrome://settings/certificates` and under the `Authorities` tab, import `rootCA.pem`
 
 2. In the root of the project, create a `certs` folder, then generate certs for your project there. If using `mkcert`, you can run `mkcert localhost`
