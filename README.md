@@ -32,6 +32,7 @@ To create a bundled application, you'll also need to generate an encrypted signi
 1. Generate an unencrypted Ed25519 key inside the `certs` directory you previously made running the following inside it: `openssl genpkey -algorithm Ed25519 -out ed25519key.pem`
 2. Encrypt the generated key by then running `openssl pkcs8 -in ed25519key.pem -topk8 -out encrypted_ed25519key.pem`, then delete the unencrypted key. You can now [build the app](#running-and-updating).
 3. (optional) Create a `.env` file in the root of the project, and add `KEY_PASSPHRASE=`, setting it equal to your passphrase. If you don't do this, you'll need to enter your passphrase every time you go to build the project. You can also add a `KEY=` line in that file, setting it equal to the contents of `encrypted_ed25519key.pem`. This is to mimic a CI/CD environment; see `vite.config.js` for how this gets handled.
+4. Once built, you can go to `chrome://web-app-internals` to install the bundle.
 
 ---
 
