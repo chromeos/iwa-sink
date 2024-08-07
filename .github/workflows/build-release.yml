@@ -46,12 +46,10 @@ jobs:
         KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
         VERSION: ${{ steps.tag_version.outputs.new_tag }}
         TAGS: ${{ steps.get_latest_release.outputs.data }}
-    - name: Echo update
-      run: cat update.json
-    - name: Upload SWBN
-      uses: actions/upload-artifact@v4
+    - name: Create release
+      uses: ncipollo/release-action@v1
       with:
-        name: release
-        path: |
-          ./dist/iwa-sink.swbnm
-          ./update.json
+        tag: ${{ steps.tag_version.outputs.new_tag }}
+        name: Release ${{ steps.tag_version.outputs.new_tag }}
+        body: ${{ steps.tag_version.outputs.changelog }}
+        artifacts: './dist/iwa-sink.swbn,./update.json'
