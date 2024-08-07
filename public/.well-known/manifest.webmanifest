@@ -2,7 +2,7 @@
   "id": "/",
   "short_name": "IWA KS",
   "name": "Kitchen Sink IWA",
-  "version": "0.3.0",
+  "version": "0.0.0",
   "icons": [
     {
       "src": "/images/icon.png",
@@ -13,13 +13,23 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "display_override": ["borderless"],
+  "display_override": [
+    "borderless"
+  ],
   "scope": "/",
   "isolated_storage": true,
   "permissions_policy": {
-    "cross-origin-isolated": ["self"],
-    "direct-sockets": ["self"],
-    "controlledframe": ["self"],
-    "window-management": ["self"]
+    "cross-origin-isolated": [
+      "self"
+    ],
+    "direct-sockets": [
+      "self"
+    ],
+    "controlledframe": [
+      "self"
+    ],
+    "window-management": [
+      "self"
+    ]
   }
 }

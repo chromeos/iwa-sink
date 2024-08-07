@@ -9,7 +9,7 @@ manifest.version = pkg.version;
 
 fs.writeFileSync(
   './public/.well-known/manifest.webmanifest',
-  JSON.stringify(manifest),
+  JSON.stringify(manifest, null, 2),
 );
 
 const updateManifest = {
