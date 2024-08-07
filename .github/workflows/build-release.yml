@@ -29,7 +29,9 @@ jobs:
     - name: Tag
       run: pnpm version minor
     - name: Build
-      run: pnpm bump && pnpm build
+      uses: mathieudutour/github-tag-action@v6.2
+      with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       env:
         KEY: ${{ secrets.KEY }}
         KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
