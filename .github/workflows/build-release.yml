@@ -30,11 +30,14 @@ jobs:
       uses: mathieudutour/github-tag-action@v6.2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        default_bump: minor
     - name: Build
       run: pnpm bump && pnpm build
       env:
         KEY: ${{ secrets.KEY }}
         KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
+    - name: Check update file
+      run: cat update.json
     - name: Upload SWBN
       uses: actions/upload-artifact@v4
       with:
