@@ -26,7 +26,7 @@ try {
     const v = tag.ref.replace('refs/tags/v', '');
     return {
       version: v,
-      src: tag.url,
+      src: `https://github.com/chromeos/iwa-sink/releases/download/v${v}/iwa-sink.swbn`,
     };
   });
 } catch (e) {
