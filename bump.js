@@ -1,11 +1,18 @@
 import fs from 'fs';
 
-const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+let version = process.env?.VERSION;
+
+if (version) {
+  version = version.replace('v', '');
+} else {
+  throw new Error('No version found');
+}
+
 const manifest = JSON.parse(
   fs.readFileSync('./public/.well-known/manifest.webmanifest', 'utf-8'),
 );
 
-manifest.version = pkg.version;
+manifest.version = version;
 
 fs.writeFileSync(
   './public/.well-known/manifest.webmanifest',
@@ -15,8 +22,8 @@ fs.writeFileSync(
 const updateManifest = {
   versions: [
     {
-      version: pkg.version,
-      src: `/v${pkg.version}/package.swbn`,
+      version,
+      src: `/v${version}/package.swbn`,
     },
   ],
 };

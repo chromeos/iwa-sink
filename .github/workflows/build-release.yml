@@ -37,8 +37,9 @@ jobs:
       env:
         KEY: ${{ secrets.KEY }}
         KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
+        VERSION: ${{ steps.tag_version.outputs.new_tag }}
     - name: Check the tags
-      run: echo ${{ steps.tag_version.outputs.new_tag }}
+      run: cat update.json
     - name: Upload SWBN
       uses: actions/upload-artifact@v4
       with:
