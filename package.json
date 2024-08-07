@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "bump": "node ./bump.js",
     "build": "vite build",
     "preview": "vite preview",
-    "format": "prettier -w .",
-    "version": "node ./bump.js && pnpm build && git commit -am \"Bump version\""
+    "format": "prettier -w ."
   },
   "devDependencies": {
     "dotenv": "^16.4.2",
