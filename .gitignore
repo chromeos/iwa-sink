@@ -24,3 +24,6 @@ certs
 *.njsproj
 *.sln
 *.sw?
+
+# Compiled files
+update.json
