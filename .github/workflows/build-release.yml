@@ -25,7 +25,7 @@ jobs:
     - name: Set up git
       run: |
         git config user.name "github-action[bot]"
-        git config user.email "action.bot@example.com"
+        git config user.email "samrichard@google.com"
     - name: Tag
       run: pnpm version minor
       env:
