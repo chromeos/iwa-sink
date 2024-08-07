@@ -19,13 +19,22 @@ fs.writeFileSync(
   JSON.stringify(manifest, null, 2),
 );
 
+let versions;
+
+try {
+  versions = JSON.parse(process.env.TAGS).map((tag) => {
+    const v = tag.ref.replace('refs/tags/v', '');
+    return {
+      version: v,
+      src: tag.url,
+    };
+  });
+} catch (e) {
+  throw new Error('No tags');
+}
+
 const updateManifest = {
-  versions: [
-    {
-      version,
-      src: `/v${version}/package.swbn`,
-    },
-  ],
+  versions,
 };
 
 fs.writeFileSync('./update.json', JSON.stringify(updateManifest));
