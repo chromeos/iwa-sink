@@ -22,10 +22,10 @@ jobs:
         cache-dependency-path: pnpm-lock.yaml
     - name: Install dependencies
       run: pnpm install
-    # - name: Set up git
-    #   run: |
-    #     git config user.name "github-action[bot]"
-    #     git config user.email "samrichard@google.com"
+    - name: Set up git
+      run: |
+        git config user.name "github-action[bot]"
+        git config user.email "samrichard@google.com"
     - name: Tag
       run: pnpm version minor
     - name: Build
