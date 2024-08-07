@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "format": "prettier -w ."
+    "format": "prettier -w .",
+    "version": "node ./bump.js && pnpm build && git add -A"
   },
   "devDependencies": {
     "dotenv": "^16.4.2",
