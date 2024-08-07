@@ -38,8 +38,14 @@ jobs:
         KEY: ${{ secrets.KEY }}
         KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
         VERSION: ${{ steps.tag_version.outputs.new_tag }}
-    - name: Check the tags
-      run: cat update.json
+    - name: Get all tags
+      uses: octokit/request-action@v2.x
+      id: get_latest_release
+      with:
+        route: GET /repos/${{ github.repository }}/git/matching-refs/tags
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
     - name: Upload SWBN
       uses: actions/upload-artifact@v4
       with:
