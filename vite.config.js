@@ -61,10 +61,10 @@ export default defineConfig({
   server: {
     port: 5193,
     strictPort: true,
-    https: {
-      key: fs.readFileSync('./certs/localhost-key.pem'),
-      cert: fs.readFileSync('./certs/localhost.pem'),
-    },
+    // https: {
+    //   key: fs.readFileSync('./certs/localhost-key.pem'),
+    //   cert: fs.readFileSync('./certs/localhost.pem'),
+    // },
     hmr: {
       protocol: 'wss',
       host: 'localhost',
