@@ -36,8 +36,8 @@ jobs:
       env:
         KEY: ${{ secrets.KEY }}
         KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
-    - name: Check update file
-      run: cat update.json
+    - name: Check the tags
+      run: git describe --tags --abbrev=0
     - name: Upload SWBN
       uses: actions/upload-artifact@v4
       with:
