@@ -22,8 +22,12 @@ jobs:
         cache-dependency-path: pnpm-lock.yaml
     - name: Install dependencies
       run: pnpm install
+    - name: Set up git
+      run: |
+        git config user.name "github-action[bot]"
+        git config user.email "action.bot@example.com"
     - name: Tag
-      run: pnpm version minor --force
+      run: pnpm version minor
       env:
         KEY: ${{ secrets.KEY }}
         KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
