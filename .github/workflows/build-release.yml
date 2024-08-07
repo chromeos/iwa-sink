@@ -24,6 +24,9 @@ jobs:
       run: pnpm install
     - name: Tag
       run: pnpm version minor
+      env:
+        KEY: ${{ secrets.KEY }}
+        KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
     - name: Upload SWBN
       uses: actions/upload-artifact@v4
       with:
