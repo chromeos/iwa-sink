@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: pnpm install
     - name: Tag
-      run: pnpm version minor
+      run: pnpm version minor --force
       env:
         KEY: ${{ secrets.KEY }}
         KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
