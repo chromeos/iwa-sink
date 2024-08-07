@@ -1,0 +1,31 @@
+name: Build and release
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Setup PNPM
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'pnpm'
+        cache-dependency-path: pnpm-lock.yaml
+    - name: Install dependencies
+      run: pnpm install
+    - name: Upload SWBN
+      uses: actions/upload-artifact@v4
+      with:
+        name: release
+        path: |
+          ./dist/iwa-sink.swbnm
+          ./update.json
