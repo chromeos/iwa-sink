@@ -27,6 +27,7 @@ jobs:
     #     git config user.name "github-action[bot]"
     #     git config user.email "samrichard@google.com"
     - name: Tag
+      id: tag_version
       uses: mathieudutour/github-tag-action@v6.2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -37,7 +38,7 @@ jobs:
         KEY: ${{ secrets.KEY }}
         KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
     - name: Check the tags
-      run: git describe --tags --abbrev=0
+      run: echo ${{ steps.tag_version.outputs.new_tag }}
     - name: Upload SWBN
       uses: actions/upload-artifact@v4
       with:
