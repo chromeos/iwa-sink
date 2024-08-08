@@ -2,6 +2,8 @@ name: Build and release
 
 on:
   push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
