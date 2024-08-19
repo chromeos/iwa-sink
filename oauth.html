@@ -1,0 +1,67 @@
+<!doctype html>
+<!--
+ Copyright 2024 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <title>IWA Kitchen Sink - OAuth flow</title>
+    <script type="module" src="/src/oauth-flow.js"></script>
+  </head>
+  <body>
+    <div class="">
+      <!-- Load shared nav -->
+      <load src="src/components/nav.html" active="Controlled Frame" />
+
+      <div >
+        <label for="auth-endpoint">Authentication endpoint</label>
+        <input type="text" id="auth-endpoint"/>
+      </div>
+      <div >
+        <label for="access-endpoint">Access endpoint</label>
+        <input type="text" id="access-endpoint"/>
+      </div>
+      <div >
+        <label for="client-id">Client ID</label>
+        <input type="text" id="client-id"/>
+      </div>
+      <div >
+        <label for="client-secret">Client Secret</label>
+        <input type="text" id="client-secret"/>
+      </div>
+      <div >
+        <label for="scope">Scope</label>
+        <input type="text" id="scope"/>
+      </div>
+
+      <div >
+        <button id="oauth-flow">OAuth flow</button>
+      </div>
+      <div >
+        <label for="auth-token">Authentication token</label>
+        <input type="text" id="auth-token"/>
+      </div>
+      <div >
+        <label for="access-code">Access code</label>
+        <input type="text" id="access-code"/>
+      </div>
+
+    </div>
+  </body>
+</html>
