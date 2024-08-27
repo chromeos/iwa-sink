@@ -22,46 +22,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/style.css" />
     <title>IWA Kitchen Sink - OAuth flow</title>
-    <script type="module" src="/src/oauth-flow.js"></script>
+    <script type="module" src="/src/oauth.js"></script>
   </head>
   <body>
-    <div class="">
+    <div class="container">
       <!-- Load shared nav -->
       <load src="src/components/nav.html" active="Controlled Frame" />
 
-      <div >
-        <label for="auth-endpoint">Authentication endpoint</label>
-        <input type="text" id="auth-endpoint"/>
-      </div>
-      <div >
-        <label for="access-endpoint">Access endpoint</label>
-        <input type="text" id="access-endpoint"/>
-      </div>
-      <div >
-        <label for="client-id">Client ID</label>
-        <input type="text" id="client-id"/>
-      </div>
-      <div >
-        <label for="client-secret">Client Secret</label>
-        <input type="text" id="client-secret"/>
-      </div>
-      <div >
-        <label for="scope">Scope</label>
-        <input type="text" id="scope"/>
-      </div>
-
-      <div >
-        <button id="oauth-flow">OAuth flow</button>
-      </div>
-      <div >
-        <label for="auth-token">Authentication token</label>
-        <input type="text" id="auth-token"/>
-      </div>
-      <div >
-        <label for="access-code">Access code</label>
-        <input type="text" id="access-code"/>
-      </div>
-
+      <form id="oauth-form">
+        <div class="form-control">
+          <label for="auth-endpoint">Authentication endpoint</label>
+          <input type="text" id="auth-endpoint" />
+        </div>
+        <div class="form-control">
+          <label for="access-endpoint">Access endpoint</label>
+          <input type="text" id="access-endpoint" />
+        </div>
+        <div class="form-control">
+          <label for="client-id">Client ID</label>
+          <input type="text" id="client-id" />
+        </div>
+        <div class="form-control">
+          <label for="client-secret">Client Secret</label>
+          <input type="text" id="client-secret" />
+        </div>
+        <div class="form-control">
+          <label for="scope">Scope</label>
+          <input type="text" id="scope" />
+        </div>
+        <div class="fordm-control">
+          <button id="oauth-flow">OAuth flow</button>
+        </div>
+        <p></p>
+        <div class="form-control">
+          Authentication token
+          <div id="auth-token"></div>
+        </div>
+        <p></p>
+        <div class="form-control">
+          Access code
+          <div id="access-code"></div>
+        </div>
+      </form>
     </div>
   </body>
 </html>

@@ -76,6 +76,7 @@ export default defineConfig({
       input: {
         main: './index.html',
         cf: './cf.html',
+        oauth: './oauth.html',
       },
     },
   },

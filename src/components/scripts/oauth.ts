@@ -15,28 +15,37 @@
  */
 
 export class OAuthConnector {
-  #redirectUri;
-  #clientId;
-  #clientSecret;
-  #oauthScopes = [];
-  #socketServer;
-  #authenticationCode;
-  #accessCode;
-  #refreshCode;
-  #promiseResolver;
-  #promiseRejecter;
+  #redirectUri: string;
+  #clientId: string;
+  #clientSecret: string;
+  #oauthScopes: Array<string>;
+  #socketServer: TCPServerSocket;
+  #authenticationCode: string | undefined;
+  #accessCode: string | undefined;
+  #refreshCode: string | undefined;
+  #promiseResolver: Promise<string> | undefined;
+  #promiseRejecter: Promise<void> | undefined;
 
-  #authentication_endpoint;
-  #token_endpoint;
+  #authenticationEndpoint: string;
+  #tokenEndpoint: string;
 
-  constructor(authentication_endpoint, token_endpoint) {
-    this.#authentication_endpoint = authentication_endpoint;
-    this.#token_endpoint = token_endpoint;
+  constructor(authentication_endpoint: string, token_endpoint: string) {
+    this.#authenticationEndpoint = authentication_endpoint;
+    this.#tokenEndpoint = token_endpoint;
 
     this.#socketServer = new TCPServerSocket('::');
+
+    this.#redirectUri = '';
+    this.#clientId = '';
+    this.#clientSecret = '';
+    this.#oauthScopes = [''];
   }
 
-  getOAuthAccessCode(client_id, client_secret, scopes) {
+  getOAuthAccessCode(
+    client_id: string,
+    client_secret: string,
+    scopes: Array<string>,
+  ) {
     this.#clientId = client_id;
     this.#clientSecret = client_secret;
     this.#oauthScopes = scopes;
@@ -48,47 +57,47 @@ export class OAuthConnector {
     this.#socketServer.opened.then((server) => {
       this.#redirectUri = `http://localhost:${server.localPort}`;
       this.#runHttpServer();
-      this.#authenticate(this.#authentication_endpoint);
+      this.#authenticate(this.#authenticationEndpoint);
     });
 
     return promise;
   }
 
-  get authentication_token() {
+  get authentication_token(): string | undefined {
     return this.#authenticationCode;
   }
 
-  get access_token() {
+  get access_token(): string | undefined {
     return this.#accessCode;
   }
 
-  get refresh_token() {
+  get refresh_token(): string | undefined {
     return this.#refreshCode;
   }
 
-  #authenticate(endpoint) {
+  #authenticate(endpoint: string): void {
     // Create <form> element to submit parameters to OAuth 2.0 endpoint.
-    let form = document.createElement('form');
+    const form = document.createElement('form');
     form.setAttribute('method', 'GET'); // Send as a GET request.
     form.setAttribute('action', endpoint);
     form.setAttribute('target', '_blank');
 
     // Parameters to pass to OAuth 2.0 endpoint.
-    let params = {
-      client_id: this.#clientId,
-      redirect_uri: this.#redirectUri,
-      response_type: 'code',
-      scope: this.#oauthScopes.join(' '),
-      include_granted_scopes: 'true',
-      state: 'pass-through value',
-    };
+    const params = new Map<string, string>([
+      ['client_id', this.#clientId],
+      ['redirect_uri', this.#redirectUri],
+      ['response_type', 'code'],
+      ['scope', this.#oauthScopes.join(' ')],
+      ['include_granted_scopes', 'true'],
+      ['state', 'pass-through value'],
+    ]);
 
     // Add form parameters as hidden input values.
-    for (let p in params) {
-      let input = document.createElement('input');
+    for (const entry in params.entries()) {
+      const input = document.createElement('input');
       input.setAttribute('type', 'hidden');
-      input.setAttribute('name', p);
-      input.setAttribute('value', params[p]);
+      input.setAttribute('name', entry[0]);
+      input.setAttribute('value', entry[1]);
       form.appendChild(input);
     }
 
@@ -97,9 +106,9 @@ export class OAuthConnector {
     form.submit();
   }
 
-  async #runHttpServer() {
-    const { readable } = await this.#socketServer.opened;
-    const connections = readable.getReader();
+  async #runHttpServer(): Promise<void> {
+    const server = await this.#socketServer.opened;
+    const connections = server.readable.getReader();
 
     while (true) {
       const { value: connection, done } = await connections.read();
@@ -118,27 +127,34 @@ export class OAuthConnector {
 
     // Wait for the server to be closed
     await this.#socketServer.closed;
-    this.#socketServer = undefined;
   }
 
-  async #connectionReceived(connection) {
+  async #connectionReceived(connection: TCPSocket): Promise<void> {
     return connection.opened.then(async (socket) => {
       const reader = socket.readable.getReader();
-      console.log('reading xonnection');
       const value = await this.#readStream(reader);
+      if (value == undefined) {
+        return;
+      }
+
       const { success, html } = this.#generateResponse(value);
       await this.#writeStream(socket, html);
 
       connection.close();
 
       if (success) {
-        const accessCode = await this.#getAccessCode();
-        this.#promiseResolver(accessCode);
+        this.#accessCode = await this.#getAccessCode();
+        if (this.#promiseResolver != undefined) {
+          this.#promiseResolver(this.#accessCode);
+        }
       }
     });
   }
 
-  #generateResponse(value) {
+  #generateResponse(value: AllowSharedBufferSource): {
+    success: boolean;
+    html: string;
+  } {
     const text = new TextDecoder().decode(value);
 
     if (this.#processRequest(text)) {
@@ -151,7 +167,7 @@ export class OAuthConnector {
     }
   }
 
-  #processRequest(text) {
+  #processRequest(text: string): boolean {
     const lines = text.split('\r\n');
     const params = lines[0].split(' ')[1].substring(2);
     const urlParams = new URLSearchParams(params);
@@ -170,8 +186,8 @@ export class OAuthConnector {
     }
   }
 
-  async #getAccessCode() {
-    // See https://developers.google.com/identity/protocols/oauth2/native-app#exchange-authorization-code
+  async #getAccessCode(): Promise<string | undefined> {
+    // See https://developers.google.com/identity/protocols/oauth2/native-appexchange-authorization-code
 
     const url_params =
       `?code=${this.#authenticationCode}&` +
@@ -180,7 +196,7 @@ export class OAuthConnector {
       `redirect_uri=${this.#redirectUri}&` +
       `grant_type=authorization_code`;
 
-    const url = this.#token_endpoint + url_params;
+    const url = this.#tokenEndpoint + url_params;
 
     return fetch(url, {
       method: 'POST',
@@ -205,18 +221,20 @@ export class OAuthConnector {
       });
   }
 
-  async #writeStream(socket, text) {
+  async #writeStream(socket: TCPSocketOpenInfo, text: string): Promise<void> {
     const writer = socket.writable.getWriter();
     const encoder = new TextEncoder();
 
-    let msg = encoder.encode(text);
+    const msg = encoder.encode(text);
 
     writer.write(msg);
     writer.releaseLock();
   }
 
-  #readStream(reader) {
-    return new Promise((res, rej) => {
+  async #readStream(
+    reader: ReadableStreamDefaultReader<Uint8Array>,
+  ): Promise<Uint8Array | undefined> {
+    return new Promise((res, _rej) => {
       reader.read().then(({ value }) => {
         reader.releaseLock();
         res(value);
