@@ -33,7 +33,7 @@ export class OAuthConnector {
     this.#authentication_endpoint = authentication_endpoint;
     this.#token_endpoint = token_endpoint;
 
-    this.#socketServer = new TCPServerSocket('::');
+    this.#socketServer = new TCPServerSocket('127.0.0.1');
   }
 
   getOAuthAccessCode(client_id, client_secret, scopes) {
@@ -215,12 +215,9 @@ export class OAuthConnector {
     writer.releaseLock();
   }
 
-  #readStream(reader) {
-    return new Promise((res, rej) => {
-      reader.read().then(({ value }) => {
-        reader.releaseLock();
-        res(value);
-      });
-    });
+  async #readStream(reader) {
+    const { value } = await reader.read();
+    reader.releaseLock();
+    return value;
   }
 }
