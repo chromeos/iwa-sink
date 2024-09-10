@@ -33,7 +33,7 @@ export class OAuthConnector {
     this.#authenticationEndpoint = authentication_endpoint;
     this.#tokenEndpoint = token_endpoint;
 
-    this.#socketServer = new TCPServerSocket('::');
+    this.#socketServer = new TCPServerSocket('127.0.0.1');
 
     this.#redirectUri = '';
     this.#clientId = '';
@@ -93,13 +93,13 @@ export class OAuthConnector {
     ]);
 
     // Add form parameters as hidden input values.
-    for (const entry in params.entries()) {
+    params.forEach((value, key) => {
       const input = document.createElement('input');
       input.setAttribute('type', 'hidden');
-      input.setAttribute('name', entry[0]);
-      input.setAttribute('value', entry[1]);
+      input.setAttribute('name', key);
+      input.setAttribute('value', value);
       form.appendChild(input);
-    }
+    });
 
     // Add form to page and submit it to open the OAuth 2.0 endpoint.
     document.body.appendChild(form);
@@ -234,11 +234,8 @@ export class OAuthConnector {
   async #readStream(
     reader: ReadableStreamDefaultReader<Uint8Array>,
   ): Promise<Uint8Array | undefined> {
-    return new Promise((res, _rej) => {
-      reader.read().then(({ value }) => {
-        reader.releaseLock();
-        res(value);
-      });
-    });
+    const { value } = await reader.read();
+    reader.releaseLock();
+    return value;
   }
 }
