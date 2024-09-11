@@ -14,9 +14,23 @@
  * limitations under the License.
  */
 
-const screenCaptureButton = document.getElementById('captureScreen') as HTMLButtonElement;
+const captureScreenButton = document.getElementById('captureScreenButton') as HTMLButtonElement;
+const captureScreenDiv = document.getElementById('captureScreenDiv') as HTMLButtonElement;
 
-screenCaptureButton.addEventListener('click', async () => {
-  const streams = await navigator.mediaDevices.getAllScreensMedia();
+captureScreenButton.addEventListener('click', async () => {
+    if (!captureScreenDiv) { return; }
+    const streams: MediaStream[] = await navigator.mediaDevices.getAllScreensMedia();
+    while (captureScreenDiv.firstChild) {
+      captureScreenDiv.removeChild(captureScreenDiv.firstChild);
+    }
+    
+    streams.forEach(function(screen) {
+      const videoElement = document.createElement('video');
+      videoElement.style.width = "256px";
+      videoElement.style.height = "192px";
+      videoElement.setAttribute("autoplay", "");
+      videoElement.srcObject = screen;
+      captureScreenDiv.appendChild(videoElement);
+    });
 });
 
