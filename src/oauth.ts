@@ -16,33 +16,38 @@
 
 import { OAuthConnector } from '/src/components/scripts/oauth-connector.ts';
 
-const form = document.getElementById('oauth-form') as HTMLInputElement;
-const auth_endpoint = document.getElementById('auth-endpoint') as HTMLInputElement;
-const access_endpoint = document.getElementById('access-endpoint') as HTMLInputElement;
+const form = document.getElementById('oauth-form') as HTMLFormElement;
+const auth_endpoint = document.getElementById(
+  'auth-endpoint',
+) as HTMLInputElement;
+const access_endpoint = document.getElementById(
+  'access-endpoint',
+) as HTMLInputElement;
 const client_id = document.getElementById('client-id') as HTMLInputElement;
-const client_secret = document.getElementById('client-secret') as HTMLInputElement;
+const client_secret = document.getElementById(
+  'client-secret',
+) as HTMLInputElement;
 const scope = document.getElementById('scope') as HTMLInputElement;
 const access_code = document.getElementById('access-code') as HTMLElement;
 const auth_token = document.getElementById('auth-token') as HTMLElement;
 
-
 form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
   const connector = new OAuthConnector(
     auth_endpoint.value,
     access_endpoint.value,
+    'You can close this page',
   );
 
-  connector
-    .getOAuthAccessCode(
-      client_id.value,
-      client_secret.value,
-      [scope.value],
-    )
-    .then((code:string) => {
-      access_code.innerText = code;
-      auth_token.innerText =
-        connector.authentication_token;
-      console.log('code returned: ' + code);
-    });
-  event.preventDefault();
+  const code: string = await connector.getOAuthAccessCode(
+    client_id.value,
+    client_secret.value,
+    [scope.value],
+  );
+
+  access_code.innerText = code;
+  auth_token.innerText = connector.authentication_token;
+
+  console.log('code returned: ' + code);
 });

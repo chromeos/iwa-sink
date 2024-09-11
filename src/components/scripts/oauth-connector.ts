@@ -19,6 +19,7 @@ export class OAuthConnector {
   #clientId: string;
   #clientSecret: string;
   #oauthScopes: Array<string>;
+  #user_message: string;
   #socketServer: TCPServerSocket;
   #authenticationCode: string | undefined;
   #accessCode: string | undefined;
@@ -29,9 +30,14 @@ export class OAuthConnector {
   #authenticationEndpoint: string;
   #tokenEndpoint: string;
 
-  constructor(authentication_endpoint: string, token_endpoint: string) {
+  constructor(
+    authentication_endpoint: string,
+    token_endpoint: string,
+    user_message: string = 'You can close this page',
+  ) {
     this.#authenticationEndpoint = authentication_endpoint;
     this.#tokenEndpoint = token_endpoint;
+    this.#user_message = user_message;
 
     this.#socketServer = new TCPServerSocket('127.0.0.1');
 
@@ -130,25 +136,25 @@ export class OAuthConnector {
   }
 
   async #connectionReceived(connection: TCPSocket): Promise<void> {
-    return connection.opened.then(async (socket) => {
-      const reader = socket.readable.getReader();
-      const value = await this.#readStream(reader);
-      if (value == undefined) {
-        return;
+    const socket = await connection.opened;
+
+    const reader = socket.readable.getReader();
+    const value = await this.#readStream(reader);
+    if (value == undefined) {
+      return;
+    }
+
+    const { success, html } = this.#generateResponse(value);
+    this.#writeStream(socket, html);
+
+    connection.close();
+
+    if (success) {
+      this.#accessCode = await this.#getAccessCode();
+      if (this.#promiseResolver != undefined) {
+        this.#promiseResolver(this.#accessCode);
       }
-
-      const { success, html } = this.#generateResponse(value);
-      await this.#writeStream(socket, html);
-
-      connection.close();
-
-      if (success) {
-        this.#accessCode = await this.#getAccessCode();
-        if (this.#promiseResolver != undefined) {
-          this.#promiseResolver(this.#accessCode);
-        }
-      }
-    });
+    }
   }
 
   #generateResponse(value: AllowSharedBufferSource): {
@@ -160,7 +166,7 @@ export class OAuthConnector {
     if (this.#processRequest(text)) {
       return {
         success: true,
-        html: 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<h1>You can close this page</h1>',
+        html: `HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<h1>${this.#user_message}</h1>`,
       };
     } else {
       return { success: false, html: 'HTTP/1.1 400 KO' };
@@ -198,30 +204,27 @@ export class OAuthConnector {
 
     const url = this.#tokenEndpoint + url_params;
 
-    return fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-    })
-      .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          return Promise.resolve(response.json());
-        } else {
-          return Promise.reject(
-            new Error(response.status.toString + ' - ' + response.statusText),
-          );
-        }
-      })
-      .then((json) => {
-        this.#accessCode = json.access_token;
-        this.#refreshCode = json.refresh_token;
+    });
 
-        return this.#accessCode;
-      });
+    if (response.status >= 200 && response.status < 300) {
+      const json = await response.json();
+      this.#accessCode = json.access_token;
+      this.#refreshCode = json.refresh_token;
+
+      return this.#accessCode;
+    } else {
+      return Promise.reject(
+        new Error(response.status.toString + ' - ' + response.statusText),
+      );
+    }
   }
 
-  async #writeStream(socket: TCPSocketOpenInfo, text: string): Promise<void> {
+  #writeStream(socket: TCPSocketOpenInfo, text: string): void {
     const writer = socket.writable.getWriter();
     const encoder = new TextEncoder();
 
