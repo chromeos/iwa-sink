@@ -12,4 +12,4 @@ A demo showing off [Isolated Web Apps](https://github.com/WICG/isolated-web-apps
 
 If you want to try installing this through the Admin panel, use the following information:
 * **Bundle ID** - `aiv4bxauvcu3zvbu6r5yynoh4atkzqqaoeof5mwz54b4zfywcrjuoaacai`
-* **Update ULR** - `https://github.com/chromeos/iwa-sink/releases/latest/download/update.json`
+* **Update URL** - `https://github.com/chromeos/iwa-sink/releases/latest/download/update.json`
