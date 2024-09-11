@@ -138,14 +138,13 @@ export class OAuthConnector {
   async #connectionReceived(connection: TCPSocket): Promise<void> {
     const socket = await connection.opened;
 
-    const reader = socket.readable.getReader();
-    const value = await this.#readStream(reader);
+    const value = await this.#readStream(socket);
     if (value == undefined) {
       return;
     }
 
     const { success, html } = this.#generateResponse(value);
-    this.#writeStream(socket, html);
+    await this.#writeStream(socket, html);
 
     connection.close();
 
@@ -157,11 +156,11 @@ export class OAuthConnector {
     }
   }
 
-  #generateResponse(value: AllowSharedBufferSource): {
+  #generateResponse(value: string): {
     success: boolean;
     html: string;
   } {
-    const text = new TextDecoder().decode(value);
+    const text = value;
 
     if (this.#processRequest(text)) {
       return {
@@ -224,21 +223,35 @@ export class OAuthConnector {
     }
   }
 
-  #writeStream(socket: TCPSocketOpenInfo, text: string): void {
+  async #writeStream(socket: TCPSocketOpenInfo, text: string): Promise<void> {
     const writer = socket.writable.getWriter();
     const encoder = new TextEncoder();
 
-    const msg = encoder.encode(text);
+    const msg = encoder.encode(text + '\r\n');
 
+    await writer.ready;
     writer.write(msg);
     writer.releaseLock();
   }
 
-  async #readStream(
-    reader: ReadableStreamDefaultReader<Uint8Array>,
-  ): Promise<Uint8Array | undefined> {
-    const { value } = await reader.read();
-    reader.releaseLock();
-    return value;
+  async #readStream(socket: TCPSocketOpenInfo): Promise<string | undefined> {
+    const reader = socket.readable
+      .pipeThrough(new TextDecoderStream())
+      .getReader();
+
+    let result = '';
+    while (reader) {
+      const { value, done } = await reader.read();
+      if (value) {
+        result += value;
+      }
+
+      if (result.includes('\r\n\r\n') || done) {
+        reader.releaseLock();
+        break;
+      }
+    }
+
+    return result;
   }
 }
