@@ -21,6 +21,9 @@
     "cross-origin-isolated": ["self"],
     "direct-sockets": ["self"],
     "controlledframe": ["self"],
-    "window-management": ["self"]
+    "window-management": ["self"],
+    "all-screens-capture": ["self"],
+    "camera": ["self"],
+    "display-capture": ["self"]
   }
 }

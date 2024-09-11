@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-/// <reference types="vite/client" />
+const screenCaptureButton = document.getElementById('captureScreen') as HTMLButtonElement;
 
-import '$types/direct-sockets';
-import '$types/controlled-frame';
-import '$types/screencapture';
+screenCaptureButton.addEventListener('click', async () => {
+  const streams = await navigator.mediaDevices.getAllScreensMedia();
+});
+
