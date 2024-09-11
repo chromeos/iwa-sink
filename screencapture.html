@@ -21,20 +21,33 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/style.css" />
-    <script type="module" src="/src/components/scripts/screencapture.ts"></script>
+    <script
+      type="module"
+      src="/src/components/scripts/screencapture.ts"
+    ></script>
     <title>IWA Kitchen Sink - Screen capture</title>
   </head>
+  
+  <style>
+  #capture-button {
+    width: 150px;
+    height: 50px;
+  }
+  
+  </style>
+
   <body>
     <div class="container screencapture">
       <!-- Load shared nav -->
       <load src="src/components/nav.html" active="Screen capture" />
-      
-      <button id="captureScreenButton" style="width: 150px; height: 50px;">Capture the screen</button>
-      
+
+      <button id="capture-button">
+        Capture the screen
+      </button>
+
       <br />
-      
-      <div id="captureScreenDiv" />
-      
+
+      <div id="capture-container" />
     </div>
   </body>
 </html>

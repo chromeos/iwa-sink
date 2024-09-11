@@ -14,23 +14,39 @@
  * limitations under the License.
  */
 
-const captureScreenButton = document.getElementById('captureScreenButton') as HTMLButtonElement;
-const captureScreenDiv = document.getElementById('captureScreenDiv') as HTMLButtonElement;
+document.addEventListener('DOMContentLoaded', () => {
+  const captureButton = document.getElementById(
+    'capture-button',
+  ) as HTMLButtonElement;
+  const captureContainer = document.getElementById(
+    'capture-container',
+  ) as HTMLDivElement;
 
-captureScreenButton.addEventListener('click', async () => {
-    if (!captureScreenDiv) { return; }
-    const streams: MediaStream[] = await navigator.mediaDevices.getAllScreensMedia();
-    while (captureScreenDiv.firstChild) {
-      captureScreenDiv.removeChild(captureScreenDiv.firstChild);
+  captureButton.addEventListener('click', async () => {
+    if (!captureContainer) {
+      return;
     }
-    
-    streams.forEach(function(screen) {
-      const videoElement = document.createElement('video');
-      videoElement.style.width = "256px";
-      videoElement.style.height = "192px";
-      videoElement.setAttribute("autoplay", "");
-      videoElement.srcObject = screen;
-      captureScreenDiv.appendChild(videoElement);
-    });
-});
+    try {
+      const streams: MediaStream[] =
+        await navigator.mediaDevices.getAllScreensMedia();
+      
+      // Remove all previously shown streams.
+      while (captureContainer.firstChild) {
+        captureContainer.removeChild(captureContainer.firstChild);
+      }
 
+      // Show all new streams.
+      for (let i = 0; i < streams.length; i++) {
+        const stream = streams[i];
+        const videoElement = document.createElement('video');
+        videoElement.style.width = '256px';
+        videoElement.style.height = '192px';
+        videoElement.setAttribute('autoplay', '');
+        videoElement.srcObject = stream;
+        captureContainer.appendChild(videoElement);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  });
+});

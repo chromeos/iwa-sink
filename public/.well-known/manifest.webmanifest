@@ -2,7 +2,7 @@
   "id": "/",
   "short_name": "IWA KS",
   "name": "Kitchen Sink IWA",
-  "version": "0.0.0",
+  "version": "0.0.23",
   "update_manifest_url": "https://github.com/chromeos/iwa-sink/releases/latest/download/update.json",
   "icons": [
     {
@@ -22,8 +22,6 @@
     "direct-sockets": ["self"],
     "controlledframe": ["self"],
     "window-management": ["self"],
-    "all-screens-capture": ["self"],
-    "camera": ["self"],
-    "display-capture": ["self"]
+    "all-screens-capture": ["self"]
   }
 }

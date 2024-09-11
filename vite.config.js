@@ -72,7 +72,7 @@ export default defineConfig({
       input: {
         main: './index.html',
         cf: './cf.html',
-	screencapture: './screencapture.html',
+        screencapture: './screencapture.html',
       },
     },
   },

@@ -15,7 +15,7 @@
  */
 
 namespace navigator {
-namespace mediaDevices {
-export declare function getAllScreensMedia(): Promise<MediaStream[]>;
-}
+  namespace mediaDevices {
+    export declare function getAllScreensMedia(): Promise<MediaStream[]>;
+  }
 }
