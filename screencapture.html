@@ -27,13 +27,17 @@
     ></script>
     <title>IWA Kitchen Sink - Screen capture</title>
   </head>
-  
+
   <style>
-  #capture-button {
-    width: 150px;
-    height: 50px;
-  }
-  
+    #capture-button {
+      width: 150px;
+      height: 50px;
+    }
+
+    video {
+      width: 256px;
+      height: 192px;
+    }
   </style>
 
   <body>
@@ -41,11 +45,7 @@
       <!-- Load shared nav -->
       <load src="src/components/nav.html" active="Screen capture" />
 
-      <button id="capture-button">
-        Capture the screen
-      </button>
-
-      <br />
+      <button id="capture-button">Capture the screens</button>
 
       <div id="capture-container" />
     </div>

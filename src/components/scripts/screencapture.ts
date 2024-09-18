@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const streams: MediaStream[] =
         await navigator.mediaDevices.getAllScreensMedia();
-      
+
       // Remove all previously shown streams.
       while (captureContainer.firstChild) {
         captureContainer.removeChild(captureContainer.firstChild);
@@ -39,8 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let i = 0; i < streams.length; i++) {
         const stream = streams[i];
         const videoElement = document.createElement('video');
-        videoElement.style.width = '256px';
-        videoElement.style.height = '192px';
         videoElement.setAttribute('autoplay', '');
         videoElement.srcObject = stream;
         captureContainer.appendChild(videoElement);
