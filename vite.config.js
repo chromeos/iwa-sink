@@ -61,12 +61,8 @@ export default defineConfig({
   server: {
     port: 5193,
     strictPort: true,
-    // https: {
-    //   key: fs.readFileSync('./certs/localhost-key.pem'),
-    //   cert: fs.readFileSync('./certs/localhost.pem'),
-    // },
     hmr: {
-      protocol: 'wss',
+      protocol: 'ws',
       host: 'localhost',
       clientPort: 5193,
     },
@@ -77,6 +73,7 @@ export default defineConfig({
         main: './index.html',
         cf: './cf.html',
         oauth: './oauth.html',
+        screencapture: './screencapture.html',
       },
     },
   },
