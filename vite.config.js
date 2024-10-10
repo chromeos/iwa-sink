@@ -62,7 +62,7 @@ export default defineConfig({
     port: 5193,
     strictPort: true,
     hmr: {
-      protocol: 'wss',
+      protocol: 'ws',
       host: 'localhost',
       clientPort: 5193,
     },
