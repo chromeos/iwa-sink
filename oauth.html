@@ -1,0 +1,69 @@
+<!doctype html>
+<!--
+ Copyright 2024 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <title>IWA Kitchen Sink - OAuth flow</title>
+    <script type="module" src="/src/oauth.ts"></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Load shared nav -->
+      <load src="src/components/nav.html" active="Controlled Frame" />
+
+      <form id="oauth-form">
+        <div class="form-control">
+          <label for="auth-endpoint">Authentication endpoint</label>
+          <input type="text" id="auth-endpoint" />
+        </div>
+        <div class="form-control">
+          <label for="access-endpoint">Access endpoint</label>
+          <input type="text" id="access-endpoint" />
+        </div>
+        <div class="form-control">
+          <label for="client-id">Client ID</label>
+          <input type="text" id="client-id" />
+        </div>
+        <div class="form-control">
+          <label for="client-secret">Client Secret</label>
+          <input type="text" id="client-secret" />
+        </div>
+        <div class="form-control">
+          <label for="scope">Scope</label>
+          <input type="text" id="scope" />
+        </div>
+        <div class="fordm-control">
+          <button id="oauth-flow">OAuth flow</button>
+        </div>
+        <p></p>
+        <div class="form-control">
+          Authentication token
+          <div id="auth-token"></div>
+        </div>
+        <p></p>
+        <div class="form-control">
+          Access code
+          <div id="access-code"></div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
