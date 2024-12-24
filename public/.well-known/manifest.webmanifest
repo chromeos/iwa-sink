@@ -20,7 +20,7 @@
   "permissions_policy": {
     "cross-origin-isolated": ["self"],
     "direct-sockets": ["self"],
-    "controlledframe": ["self"],
+    "controlled-frame": ["self"],
     "window-management": ["self"],
     "all-screens-capture": ["self"]
   }
