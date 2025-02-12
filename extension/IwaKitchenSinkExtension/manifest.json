@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
 
-  "name": "IWA Kitchen Sink Compation Extension",
+  "name": "IWA Kitchen Sink Companion Extension",
   "description": "Companion extension for the IWA Kitchen Sink",
-  "version": "1.1",
+  "version": "1.0",
 
   "background": {
     "service_worker": "/scripts/background.js"
