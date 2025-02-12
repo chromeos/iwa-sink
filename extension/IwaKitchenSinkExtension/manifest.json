@@ -3,7 +3,7 @@
 
   "name": "IWA Kitchen Sink Companion Extension",
   "description": "Companion extension for the IWA Kitchen Sink",
-  "version": "1.0",
+  "version": "1.1",
 
   "background": {
     "service_worker": "/scripts/background.js"
@@ -11,7 +11,7 @@
 
   "externally_connectable": {
     "matches": [
-      "isolated-app://aiv4bxauvcu3zvbu6r5yynoh4atkzqqaoeof5mwz54b4zfywcrjuoaacai/*"
+      "isolated-app://*/*"
     ]
   },
 
