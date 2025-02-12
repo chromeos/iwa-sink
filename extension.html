@@ -1,0 +1,87 @@
+<!doctype html>
+<!--
+ Copyright 2025 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <script type="module" src="/src/components/scripts/extension.ts"></script>
+    <title>IWA Kitchen Sink - Extension communication</title>
+  </head>
+
+  <style>
+    #capture-button {
+      width: 150px;
+      height: 50px;
+    }
+
+    video {
+      width: 256px;
+      height: 192px;
+    }
+
+    /* Vertical Button Group */
+    .btn-group button {
+      background-color: #046daa; /* Blue background */
+      border: 1px solid #00418e; /* Blue border */
+      color: white; /* White text */
+      padding: 10px 24px; /* Some padding */
+      cursor: pointer; /* Pointer/hand icon */
+      width: 50%; /* Set a width if needed */
+      display: block; /* Make the buttons appear below each other */
+    }
+
+    .btn-group button:not(:last-child) {
+      border-bottom: none; /* Prevent double borders */
+    }
+
+    /* Add a background color on hover */
+    .btn-group button:hover {
+      background-color: #00418e;
+    }
+  </style>
+
+  <body>
+    <div class="container extension">
+      <!-- Load shared nav -->
+      <load src="src/components/nav.html" active="Extension" />
+
+      <div class="extensionCheck">
+        <div id="extensionCheckResult">
+          Companion extension status should appear here.
+        </div>
+      </div>
+
+      <div class="ExtApiCallResults">
+        <h2>Result from Extension API calls</h2>
+        <div id="extApiCallName">No API calls yet.</div>
+        <div id="extApiCallStatus"></div>
+        <div id="extApiCallOutput"></div>
+      </div>
+
+      <div class="btn-group">
+        <h2>Extension API calls</h2>
+        <h3>chrome.identity.id</h3>
+        <button id="btnIdentityId">
+          Call chrome.identity.getProfileUserInfo()
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
