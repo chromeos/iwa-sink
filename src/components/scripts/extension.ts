@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-const COMPANION_EXTENSION_ID = 'iihpmimbjmmjhmhpmlbfiacamlfplffi';
+const COMPANION_EXTENSION_ID = 'gopkidjpdjfamphfffkhpmmmbmknflmk';
 const REQUEST_VERSION_CHECK = 'version';
 
 document.addEventListener('DOMContentLoaded', () => {

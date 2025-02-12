@@ -15,3 +15,8 @@ If you want to try installing this through the Admin panel, use the following in
 
 - **Bundle ID** - `aiv4bxauvcu3zvbu6r5yynoh4atkzqqaoeof5mwz54b4zfywcrjuoaacai`
 - **Update URL** - `https://github.com/chromeos/iwa-sink/releases/latest/download/update.json`
+
+## Companion extension
+You can find a basic companion Chrome extension in the `extension` folder. The extension uses the [chrome.identity API](https://developer.chrome.com/docs/extensions/reference/api/identity).
+- **Extension ID** - `gopkidjpdjfamphfffkhpmmmbmknflmk`
+- **Update manifest for the self-hosted extension** - `https://github.com/chromeos/iwa-sink/releases/latest/download/manifest.xml`
