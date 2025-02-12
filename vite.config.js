@@ -74,6 +74,7 @@ export default defineConfig({
         cf: './cf.html',
         oauth: './oauth.html',
         screencapture: './screencapture.html',
+        extension: './extension.html',
       },
     },
   },
