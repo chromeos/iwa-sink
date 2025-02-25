@@ -16,7 +16,7 @@
 
 import { collectConnections, readStream, writeStream } from './streams';
 
-const server = new TCPServerSocket('::');
+const server = new TCPServerSocket('::1');
 let address: string;
 let port: number;
 let connections = 0;
