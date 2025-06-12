@@ -19,4 +19,4 @@ If you want to try installing this through the Admin panel, use the following in
 ## Companion extension
 You can find a basic companion Chrome extension in the `extension` folder. The extension uses the [chrome.identity API](https://developer.chrome.com/docs/extensions/reference/api/identity).
 - **Extension ID** - `gopkidjpdjfamphfffkhpmmmbmknflmk`
-- **Update manifest for the self-hosted extension** - [https://github.com/chromeos/iwa-sink/releases/latest/download/manifest.xml](https://github.com/chromeos/iwa-sink/releases/download/v0.18.0/extension_manifest.xml)
+- **Update manifest for the self-hosted extension** - [https://github.com/chromeos/iwa-sink/releases/latest/download/extension_manifest.xml](https://github.com/chromeos/iwa-sink/releases/latest/download/extension_manifest.xml)
