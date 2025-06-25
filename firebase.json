@@ -1,0 +1,14 @@
+{
+  "hosting": {
+    "site": "iwa-sink",
+    "source": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "frameworksBackend": {
+      "region": "europe-west1"
+    }
+  }
+}
