@@ -26,7 +26,8 @@ dotenv.config();
 
 const plugins = [injectHTML()];
 
-if (process.env.NODE_ENV === 'production') {
+if (!process.env.IWA_DEV_MODE
+  && process.env.NODE_ENV === 'production') {
   // Get the key and decrypt it to sign the web bundle
   const key = wbnSign.parsePemKey(
     process.env.KEY || fs.readFileSync('./certs/encrypted_key.pem'),
