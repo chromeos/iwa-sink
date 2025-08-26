@@ -23,5 +23,18 @@
     "controlled-frame": ["self"],
     "window-management": ["self"],
     "all-screens-capture": ["self"]
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+cf",
+      "url": "/cf.html?params=%s"
+    },
+    {
+      "protocol": "cf",
+      "url": "/cf.html?params=%s"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
   }
 }
