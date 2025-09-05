@@ -17,6 +17,7 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.13",
     "vite-plugin-html-inject": "^1.1.2",
-    "wbn-sign": "^0.2.0"
+    "wbn-sign": "^0.2.0",
+    "tinycolor2": "^1.6.0"
   }
 }

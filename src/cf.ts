@@ -14,28 +14,100 @@
  * limitations under the License.
  */
 
-const color = document.getElementById('color') as HTMLInputElement;
-const lucky = document.getElementById('lucky') as HTMLInputElement;
+import tinycolor from 'tinycolor2';
+
+const colorInput = document.getElementById('color') as HTMLInputElement;
+const luckyInput = document.getElementById('lucky') as HTMLInputElement;
 const cf = document.getElementById('cf') as ControlledFrame;
-const controls = document.getElementById('controls') as HTMLFormElement;
+const controlsForm = document.getElementById('controls') as HTMLFormElement;
 
-controls.addEventListener('submit', (e) => {
-  e.preventDefault();
-});
+/**
+ * Updates the background color of the controlled frame.
+ * @param color The CSS color value.
+ */
+function updateControlledFrameBackgroundColor(color: string) {
+  const css = `body { background: ${color} !important; }`;
+  console.log(`Updating color to: ${color}`);
+  cf.insertCSS({ code: css });
+}
 
-color.addEventListener('change', () => {
-  const c = color.value;
-  const css = `body { background: ${c} !important; }`;
-  console.log(css);
-  cf.insertCSS({
-    code: css,
-  });
-});
+/**
+ * Updates the text of the "lucky" button inside the controlled frame.
+ * @param text The new text to display.
+ */
+function updateControlledFrameLuckyButtonText(text: string) {
+  console.log(`Updating text to: "I'm Feeling ${text}"`);
+  // Selects both English and Dutch buttons in a single query.
+  // The selector string uses backticks to avoid issues with single and double quotes.
+  const script = `
+    document.querySelectorAll(\`[aria-label="I'm Feeling Lucky"], [aria-label="Ik doe een gok"]\`).forEach(button => {
+      button.value = "I'm Feeling ${text}";
+    });
+  `;
+  cf.executeScript({ code: script });
+}
 
-lucky.addEventListener('change', () => {
-  cf.executeScript({
-    code: `
-    document.querySelector(\`[aria-label="I'm Feeling Lucky"][role="button"]\`).value = "I'm Feeling ${lucky.value}";
-    `,
-  });
-});
+/**
+ * Handles incoming launch parameters from the launch queue.
+ * @param launchParams The launch parameters provided by the system.
+ */
+function handleLaunch(launchParams: LaunchParams) {
+  if (!launchParams.targetURL) {
+    return;
+  }
+  console.log(`Received launch with targetURL: ${launchParams.targetURL}`);
+
+  // The targetURL contains a 'params' query parameter, which is itself a URL.
+  // We need to parse this nested URL to get the actual values.
+  const outerParams = new URL(launchParams.targetURL).searchParams;
+  const innerUrlString = outerParams.get('params');
+
+  if (!innerUrlString) {
+    console.warn("No 'params' found in launch URL.");
+    return;
+  }
+
+  try {
+    const innerParams = new URL(innerUrlString).searchParams;
+    const textParam = innerParams.get('text');
+    const colorParam = innerParams.get('color');
+
+    let parsedColor = null;
+    if (colorParam) {
+      const realColor = tinycolor(colorParam);
+      if (!realColor.isValid()) {
+        throw new Error(`${colorParam} does not name a valid color`);
+      }
+      parsedColor = realColor.toHexString();
+      colorInput.value = parsedColor;
+    }
+
+    if (textParam) {
+      luckyInput.value = textParam;
+    }
+
+    // Wait for the controlled frame to finish loading before applying changes.
+    cf.onloadstop = () => {
+      if (textParam) {
+        updateControlledFrameLuckyButtonText(textParam);
+      }
+      if (parsedColor) {
+        updateControlledFrameBackgroundColor(parsedColor);
+      }
+    };
+  } catch (error) {
+    console.error("Failed to parse inner URL from 'params':", error);
+  }
+}
+
+controlsForm.addEventListener('submit', (e) => e.preventDefault());
+
+colorInput.addEventListener('change', () =>
+  updateControlledFrameBackgroundColor(colorInput.value),
+);
+luckyInput.addEventListener('change', () =>
+  updateControlledFrameLuckyButtonText(luckyInput.value),
+);
+
+// Set up the launch queue consumer to handle protocol-launched events.
+window.launchQueue.setConsumer(handleLaunch);
