@@ -36,5 +36,24 @@
   ],
   "launch_handler": {
     "client_mode": "navigate-existing"
-  }
+  },
+  "shortcuts": [{
+    "name": "Controlled Frame",
+    "url": "/cf.html",
+    "icons": [{
+      "src": "/images/cf.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }]
+  }, {
+    "name": "Direct Sockets",
+    "url": "/",
+    "icons": [{
+      "src": "/images/direct-sockets.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }]
+  }]
 }
