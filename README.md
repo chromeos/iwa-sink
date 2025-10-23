@@ -15,10 +15,12 @@ Kitchen Sink IWA is configured with `navigate-existing` launch handler
 and is capable of handling the `cf://` protocol (see the manifest for more
 details). As such, clicking on any of the links below will select an existing
 app instance (or create a new one if there's none running) and navigate it to
-`/cf.html` with some custom query params. Note that this requires the app to be
-installed and at least Chrome 142.
-  - [Click me](cf://?text=Lucky&color=peachpuff) if you're feeling lucky
-  - [Click me](cf://?text=Unlucky&color=slategrey) if you're feeling unlucky
+`/cf.html` with some custom query params. This requires the app to be
+installed and at least Chrome 143; the protocol requests are routed as redirects
+via cros-protocol-handlers.web.app since Github doesn't render custom protocol links in a clickable manner.
+
+- [Click me](https://cros-protocol-handlers.web.app/protocols/?text=Lucky&color=peachpuff) if you're feeling lucky
+- [Click me](https://cros-protocol-handlers.web.app/protocols/?text=Unlucky&color=slategrey) if you're feeling unlucky
 
 ## Installing as a Demo
 
@@ -26,4 +28,3 @@ If you want to try installing this through the Admin panel, use the following in
 
 - **Bundle ID** - `aiv4bxauvcu3zvbu6r5yynoh4atkzqqaoeof5mwz54b4zfywcrjuoaacai`
 - **Update URL** - `https://github.com/chromeos/iwa-sink/releases/latest/download/update.json`
-
