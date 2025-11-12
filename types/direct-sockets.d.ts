@@ -12,69 +12,118 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Generated from:
+ * - multicast_controller.idl
+ * - socket_connection.idl
+ * - socket_options.idl
+ * - tcp_server_socket.idl
+ * - tcp_socket.idl
+ * - udp_message.idl
+ * - udp_socket.idl
+ *
+ * @see https://github.com/WICG/direct-sockets/blob/main/docs/explainer.md
  */
 
-/* https://wicg.github.io/direct-sockets/#dom-tcpsocketoptions */
-interface TCPSocketOptions {
+export interface UDPSocket {
+  constructor(options: UDPSocketOptions);
+  readonly opened: Promise<UDPSocketOpenInfo>;
+  readonly closed: Promise<undefined>;
+  close(): Promise<undefined>;
+}
+
+export interface UDPMessage {
+  data?: BufferSource;
+  remoteAddress?: string;
+  remotePort?: number;
+  dnsQueryType?: SocketDnsQueryType;
+}
+
+export interface TCPSocket {
+  constructor(remoteAddress: string, remotePort: number, options?: TCPSocketOptions);
+  readonly opened: Promise<TCPSocketOpenInfo>;
+  readonly closed: Promise<undefined>;
+  close(): Promise<undefined>;
+}
+
+export interface TCPServerSocket {
+  constructor(localAddress: string, options?: TCPServerSocketOptions);
+  readonly opened: Promise<TCPServerSocketOpenInfo>;
+  readonly closed: Promise<undefined>;
+  close(): Promise<undefined>;
+}
+
+export type SocketDnsQueryType =
+  | "ipv4"
+  | "ipv6";
+
+export interface SocketOptions {
+  /** @remarks Extended attributes: [EnforceRange] */
   sendBufferSize?: number;
+  /** @remarks Extended attributes: [EnforceRange] */
   receiveBufferSize?: number;
+}
 
+export interface TCPSocketOptions extends SocketOptions {
+  /** @default false */
   noDelay?: boolean;
+  /** @remarks Extended attributes: [EnforceRange] */
   keepAliveDelay?: number;
+  dnsQueryType?: SocketDnsQueryType;
 }
 
-/* https://wicg.github.io/direct-sockets/#dom-tcpsocketopeninfo */
-interface TCPSocketOpenInfo {
-  readable: ReadableStream<Uint8Array>;
-  writable: WritableStream<Uint8Array>;
-
-  remoteAddress: string;
-  remotePort: number;
-
-  localAddress: string;
-  localPort: number;
-}
-
-/**
- * https://wicg.github.io/direct-sockets/#dom-tcpsocket
- */
-declare class TCPSocket {
-  constructor(
-    remoteAddress: string,
-    remotePort: number,
-    options?: TCPSocketOptions,
-  );
-
-  opened: Promise<TCPSocketOpenInfo>;
-  closed: Promise<void>;
-
-  close(): Promise<void>;
-}
-
-/* https://wicg.github.io/direct-sockets/#dom-tcpserversocketoptions */
-interface TCPServerSocketOptions {
+export interface UDPSocketOptions extends SocketOptions {
+  remoteAddress?: string;
+  /** @remarks Extended attributes: [EnforceRange] */
+  remotePort?: number;
+  localAddress?: string;
+  /** @remarks Extended attributes: [EnforceRange] */
   localPort?: number;
-  backlog?: number;
+  dnsQueryType?: SocketDnsQueryType;
+  ipv6Only?: boolean;
+  /** @remarks Extended attributes: [RuntimeEnabled=MulticastInDirectSockets] */
+  multicastAllowAddressSharing?: boolean;
+  /** @remarks Extended attributes: [RuntimeEnabled=MulticastInDirectSockets, EnforceRange] */
+  multicastTimeToLive?: number;
+  /** @remarks Extended attributes: [RuntimeEnabled=MulticastInDirectSockets] */
+  multicastLoopback?: boolean;
+}
 
+export interface TCPServerSocketOptions {
+  /** @remarks Extended attributes: [EnforceRange] */
+  localPort?: number;
+  /** @remarks Extended attributes: [EnforceRange] */
+  backlog?: number;
   ipv6Only?: boolean;
 }
 
-/* https://wicg.github.io/direct-sockets/#dom-tcpserversocketopeninfo */
-interface TCPServerSocketOpenInfo {
-  readable: ReadableStream<TCPSocket>;
-
-  localAddress: string;
-  localPort: number;
+export interface SocketOpenInfo {
+  readable?: ReadableStream;
+  writable?: WritableStream;
+  remoteAddress?: string;
+  remotePort?: number;
+  localAddress?: string;
+  localPort?: number;
 }
 
-/**
- * https://wicg.github.io/direct-sockets/#dom-tcpserversocket
- */
-declare class TCPServerSocket {
-  constructor(localAddress: string, options?: TCPServerSocketOptions);
+export interface TCPSocketOpenInfo extends SocketOpenInfo {
 
-  opened: Promise<TCPServerSocketOpenInfo>;
-  closed: Promise<void>;
-
-  close(): Promise<void>;
 }
+
+export interface UDPSocketOpenInfo extends SocketOpenInfo {
+  /** @remarks Extended attributes: [RuntimeEnabled=MulticastInDirectSockets] */
+  multicastController?: MulticastController;
+}
+
+export interface TCPServerSocketOpenInfo {
+  readable?: ReadableStream;
+  localAddress?: string;
+  localPort?: number;
+}
+
+export interface MulticastController {
+  joinGroup(ipAddress: string): Promise<undefined>;
+  leaveGroup(ipAddress: string): Promise<undefined>;
+  readonly joinedGroups: readonly string[];
+}
+

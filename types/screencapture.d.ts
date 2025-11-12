@@ -12,10 +12,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Generated from:
+ * - media_devices.idl
+ *
+ * @see https://w3c.github.io/mediacapture-handle/identity/
+ * @see https://w3c.github.io/mediacapture-main/
+ * @see https://w3c.github.io/mediacapture-screen-share/
  */
 
-namespace navigator {
-  namespace mediaDevices {
-    export declare function getAllScreensMedia(): Promise<MediaStream[]>;
-  }
+export interface MediaDevices extends EventTarget {
+  ondevicechange: EventHandler;
+  enumerateDevices(): Promise<MediaDeviceInfo[]>;
+  getSupportedConstraints(): MediaTrackSupportedConstraints;
+  getUserMedia(constraints?: UserMediaStreamConstraints): Promise<MediaStream>;
+  getDisplayMedia(constraints?: DisplayMediaStreamOptions): Promise<MediaStream>;
+  getAllScreensMedia(): Promise<MediaStream[]>;
+  selectAudioOutput(options?: AudioOutputOptions): Promise<MediaDeviceInfo>;
+  setCaptureHandleConfig(config?: CaptureHandleConfig): void;
+  setPreferredSinkId(sinkId: string): Promise<undefined>;
 }
+

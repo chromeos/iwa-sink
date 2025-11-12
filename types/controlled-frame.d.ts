@@ -32,6 +32,7 @@ interface ControlledFrameEventMap extends HTMLElementEventMap {
   permissionrequest: PermissionRequestEvent;
   sizechanged: SizeChangedEvent;
   zoomchange: ZoomChangeEvent;
+  loadredirect: LoadRedirectEvent;
 }
 
 interface HTMLControlledFrameElement extends HTMLElement {
@@ -110,7 +111,7 @@ interface HTMLControlledFrameElement extends HTMLElement {
 
 declare var HTMLControlledFrameElement: {
   prototype: HTMLControlledFrameElement;
-  new (): HTMLControlledFrameElement;
+  new(): HTMLControlledFrameElement;
 };
 
 type InjectDetails = {
@@ -236,7 +237,7 @@ interface ZoomChangeEvent extends Event {
   readonly newZoomFactor: number;
 }
 
-interface ContentLoadEvent extends Event {}
+interface ContentLoadEvent extends Event { }
 
 interface LoadAbortEvent extends Event {
   readonly url: string;
@@ -255,7 +256,7 @@ interface LoadStartEvent extends Event {
   readonly isTopLevel: boolean;
 }
 
-interface LoadStopEvent extends Event {}
+interface LoadStopEvent extends Event { }
 
 interface LoadRedirectEvent extends Event {
   readonly oldUrl: string;
@@ -431,7 +432,7 @@ interface WebRequestResponseStartedEvent extends WebRequestEvent {
   readonly response: WebRequestResponse;
 }
 
-interface WebRequestSendHeadersEvent extends WebRequestEvent {}
+interface WebRequestSendHeadersEvent extends WebRequestEvent { }
 
 type ContextMenusContextType =
   | 'all'
