@@ -37,40 +37,49 @@
  * @see https://wicg.github.io/webusb/
  */
 
+/** @remarks Extended attributes: [Exposed, ImplementedAs=USB, SecureContext] */
 export interface WorkerNavigator {
+  /** @remarks Extended attributes: [SameObject] */
   readonly usb: USB;
 }
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USBOutTransferResult {
   constructor(status: USBTransferStatus, bytesWritten?: number);
   readonly bytesWritten: number;
   readonly status: USBTransferStatus;
 }
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USBIsochronousOutTransferResult {
   constructor(packets: USBIsochronousOutTransferPacket[]);
   readonly packets: readonly USBIsochronousOutTransferPacket[];
 }
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USBIsochronousOutTransferPacket {
   constructor(status: USBTransferStatus, bytesWritten?: number);
   readonly bytesWritten: number;
   readonly status: USBTransferStatus;
 }
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USBIsochronousInTransferResult {
   constructor(packets: USBIsochronousInTransferPacket[], data?: DataView | null);
   readonly data: DataView | null;
   readonly packets: readonly USBIsochronousInTransferPacket[];
 }
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USBIsochronousInTransferPacket {
   constructor(status: USBTransferStatus, data?: DataView | null);
   readonly status: USBTransferStatus;
   readonly data: DataView | null;
 }
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USBInterface {
+  /** @remarks Extended attributes: [RaisesException] */
   constructor(configuration: USBConfiguration, interfaceNumber: number);
   readonly interfaceNumber: number;
   readonly alternate: USBAlternateInterface | null;
@@ -78,6 +87,7 @@ export interface USBInterface {
   readonly claimed: boolean;
 }
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USBInTransferResult {
   constructor(status: USBTransferStatus, data?: DataView | null);
   readonly data: DataView | null;
@@ -93,7 +103,9 @@ export type USBEndpointType =
   | "interrupt"
   | "isochronous";
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USBEndpoint {
+  /** @remarks Extended attributes: [RaisesException] */
   constructor(alternate: USBAlternateInterface, endpointNumber: number, direction: USBDirection);
   readonly endpointNumber: number;
   readonly direction: USBDirection;
@@ -121,6 +133,7 @@ export type USBTransferStatus =
   | "stall"
   | "babble";
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USBDevice {
   readonly usbVersionMajor: number;
   readonly usbVersionMinor: number;
@@ -139,20 +152,35 @@ export interface USBDevice {
   readonly configuration: USBConfiguration | null;
   readonly configurations: readonly USBConfiguration[];
   readonly opened: boolean;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceOpen, RaisesException] */
   open(): Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceClose, RaisesException] */
   close(): Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceForget, RaisesException] */
   forget(): Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceSelectConfiguration, RaisesException] */
   selectConfiguration(configurationValue: number): Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceClaimInterface, RaisesException] */
   claimInterface(interfaceNumber: number): Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceReleaseInterface, RaisesException] */
   releaseInterface(interfaceNumber: number): Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceSelectAlternateInterface, RaisesException] */
   selectAlternateInterface(interfaceNumber: number, alternateSetting: number): Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceControlTransferIn, RaisesException] */
   controlTransferIn(setup: USBControlTransferParameters, length: number): Promise<USBInTransferResult>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceControlTransferOut, RaisesException] */
   controlTransferOut(setup: USBControlTransferParameters, data?: BufferSource): Promise<USBOutTransferResult>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceClearHalt, RaisesException] */
   clearHalt(direction: USBDirection, endpointNumber: number): Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceTransferIn, RaisesException] */
   transferIn(endpointNumber: number, length: number): Promise<USBInTransferResult>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceTransferOut, RaisesException] */
   transferOut(endpointNumber: number, data: BufferSource): Promise<USBOutTransferResult>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceIsochronousTransferIn, RaisesException] */
   isochronousTransferIn(endpointNumber: number, packetLengths: number[]): Promise<USBIsochronousInTransferResult>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceIsochronousTransferOut, RaisesException] */
   isochronousTransferOut(endpointNumber: number, data: BufferSource, packetLengths: number[]): Promise<USBIsochronousOutTransferResult>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UsbDeviceReset, RaisesException] */
   reset(): Promise<undefined>;
 }
 
@@ -179,19 +207,25 @@ export interface USBConnectionEventInit extends EventInit {
   device: USBDevice;
 }
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USBConnectionEvent extends Event {
   constructor(type: string, eventInitDict: USBConnectionEventInit);
+  /** @remarks Extended attributes: [SameObject] */
   readonly device: USBDevice;
 }
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USBConfiguration {
+  /** @remarks Extended attributes: [RaisesException] */
   constructor(device: USBDevice, configurationValue: number);
   readonly configurationValue: number;
   readonly configurationName: string | null;
   readonly interfaces: readonly USBInterface[];
 }
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USBAlternateInterface {
+  /** @remarks Extended attributes: [RaisesException] */
   constructor(deviceInterface: USBInterface, alternateSetting: number);
   readonly alternateSetting: number;
   readonly interfaceClass: number;
@@ -201,14 +235,19 @@ export interface USBAlternateInterface {
   readonly endpoints: readonly USBEndpoint[];
 }
 
+/** @remarks Extended attributes: [Exposed, SecureContext] */
 export interface USB extends EventTarget {
   onconnect: EventHandler;
   ondisconnect: EventHandler;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=UsbGetDevices] */
   getDevices(): Promise<USBDevice[]>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, Exposed=Window, MeasureAs=UsbRequestDevice] */
   requestDevice(options: USBDeviceRequestOptions): Promise<USBDevice>;
 }
 
+/** @remarks Extended attributes: [Exposed=Window, ImplementedAs=USB, SecureContext] */
 export interface Navigator {
+  /** @remarks Extended attributes: [SameObject, RuntimeEnabled=WebUSB] */
   readonly usb: USB;
 }
 

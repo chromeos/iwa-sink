@@ -25,10 +25,15 @@
  * @see https://github.com/WICG/direct-sockets/blob/main/docs/explainer.md
  */
 
+/** @remarks Extended attributes: [Exposed, ActiveScriptWrappable, SecureContext, IsolatedContext] */
 export interface UDPSocket {
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=UDPSocketConstructor] */
   constructor(options: UDPSocketOptions);
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UDPSocketOpenedAttribute] */
   readonly opened: Promise<UDPSocketOpenInfo>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UDPSocketClosedAttribute] */
   readonly closed: Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=UDPSocketCloseFunction] */
   close(): Promise<undefined>;
 }
 
@@ -39,17 +44,27 @@ export interface UDPMessage {
   dnsQueryType?: SocketDnsQueryType;
 }
 
+/** @remarks Extended attributes: [Exposed, ActiveScriptWrappable, SecureContext, IsolatedContext] */
 export interface TCPSocket {
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=TCPSocketConstructor] */
   constructor(remoteAddress: string, remotePort: number, options?: TCPSocketOptions);
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=TCPSocketOpenedAttribute] */
   readonly opened: Promise<TCPSocketOpenInfo>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=TCPSocketClosedAttribute] */
   readonly closed: Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=TCPSocketCloseFunction] */
   close(): Promise<undefined>;
 }
 
+/** @remarks Extended attributes: [Exposed, SecureContext, IsolatedContext] */
 export interface TCPServerSocket {
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=TCPServerSocketConstructor] */
   constructor(localAddress: string, options?: TCPServerSocketOptions);
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=TCPServerSocketOpenedAttribute] */
   readonly opened: Promise<TCPServerSocketOpenInfo>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=TCPServerSocketClosedAttribute] */
   readonly closed: Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=TCPServerSocketCloseFunction] */
   close(): Promise<undefined>;
 }
 
@@ -121,9 +136,13 @@ export interface TCPServerSocketOpenInfo {
   localPort?: number;
 }
 
+/** @remarks Extended attributes: [RuntimeEnabled=MulticastInDirectSockets, Exposed=Window, DedicatedWorker, SharedWorker, ServiceWorker, SecureContext, IsolatedContext] */
 export interface MulticastController {
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=MulticastControllerJoinGroupFunction] */
   joinGroup(ipAddress: string): Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=MulticastControllerLeaveGroupFunction] */
   leaveGroup(ipAddress: string): Promise<undefined>;
+  /** @remarks Extended attributes: [MeasureAs=MulticastControllerJoinedGroupsAttribute] */
   readonly joinedGroups: readonly string[];
 }
 

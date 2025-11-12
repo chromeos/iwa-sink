@@ -24,7 +24,9 @@
  * @see https://wicg.github.io/web-smart-card/
  */
 
+/** @remarks Extended attributes: [Exposed=Window, RuntimeEnabled=SmartCard, SecureContext, IsolatedContext] */
 export interface SmartCardResourceManager {
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=SmartCardEstablishContext, RaisesException] */
   establishContext(): Promise<SmartCardContext>;
 }
 
@@ -50,6 +52,7 @@ export interface SmartCardErrorOptions {
   responseCode: SmartCardResponseCode;
 }
 
+/** @remarks Extended attributes: [Exposed=Window, RuntimeEnabled=SmartCard, SecureContext, IsolatedContext] */
 export interface SmartCardError extends DOMException {
   constructor(message: string, options: SmartCardErrorOptions);
   readonly responseCode: SmartCardResponseCode;
@@ -123,9 +126,13 @@ export interface SmartCardConnectOptions {
   preferredProtocols?: SmartCardProtocol[];
 }
 
+/** @remarks Extended attributes: [Exposed=Window, RuntimeEnabled=SmartCard, SecureContext, IsolatedContext] */
 export interface SmartCardContext {
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   listReaders(): Promise<string[]>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   getStatusChange(readerStates: SmartCardReaderStateIn[], options?: SmartCardGetStatusChangeOptions): Promise<SmartCardReaderStateOut[]>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=SmartCardConnect, RaisesException] */
   connect(readerName: string, accessMode: SmartCardAccessMode, options?: SmartCardConnectOptions): Promise<SmartCardConnectResult>;
 }
 
@@ -161,17 +168,26 @@ export interface SmartCardTransmitOptions {
 
 export type SmartCardTransactionCallback = () => Promise<SmartCardDisposition | null>;
 
+/** @remarks Extended attributes: [Exposed=Window, RuntimeEnabled=SmartCard, SecureContext, IsolatedContext] */
 export interface SmartCardConnection {
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   disconnect(disposition?: SmartCardDisposition): Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   transmit(sendBuffer: BufferSource, options?: SmartCardTransmitOptions): Promise<ArrayBuffer>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   status(): Promise<SmartCardConnectionStatus>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   control(controlCode: number, data: BufferSource): Promise<ArrayBuffer>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   getAttribute(tag: number): Promise<ArrayBuffer>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   setAttribute(tag: number, value: BufferSource): Promise<undefined>;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   startTransaction(transaction: SmartCardTransactionCallback, options?: SmartCardTransactionOptions): Promise<undefined>;
 }
 
+/** @remarks Extended attributes: [Exposed=Window, ImplementedAs=SmartCardResourceManager, RuntimeEnabled=SmartCard, SecureContext, IsolatedContext] */
 export interface Navigator {
+  /** @remarks Extended attributes: [SameObject] */
   readonly smartCard: SmartCardResourceManager;
 }
-

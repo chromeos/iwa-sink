@@ -21,15 +21,23 @@
  * @see https://w3c.github.io/mediacapture-screen-share/
  */
 
+/** @remarks Extended attributes: [Exposed=Window, ActiveScriptWrappable, SecureContext] */
 export interface MediaDevices extends EventTarget {
   ondevicechange: EventHandler;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, HighEntropy, MeasureAs=MediaDevicesEnumerateDevices] */
   enumerateDevices(): Promise<MediaDeviceInfo[]>;
   getSupportedConstraints(): MediaTrackSupportedConstraints;
+  /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, HighEntropy, MeasureAs=GetUserMediaPromise] */
   getUserMedia(constraints?: UserMediaStreamConstraints): Promise<MediaStream>;
+  /** @remarks Extended attributes: [RuntimeEnabled=GetDisplayMedia, CallWith=ScriptState, RaisesException, MeasureAs=GetDisplayMedia] */
   getDisplayMedia(constraints?: DisplayMediaStreamOptions): Promise<MediaStream>;
+  /** @remarks Extended attributes: [RuntimeEnabled=GetAllScreensMedia, CallWith=ScriptState, RaisesException, MeasureAs=GetAllScreensMedia, IsolatedContext] */
   getAllScreensMedia(): Promise<MediaStream[]>;
+  /** @remarks Extended attributes: [RuntimeEnabled=SelectAudioOutput, CallWith=ScriptState, RaisesException, MeasureAs=SelectAudioOutput] */
   selectAudioOutput(options?: AudioOutputOptions): Promise<MediaDeviceInfo>;
+  /** @remarks Extended attributes: [RuntimeEnabled=CaptureHandle, CallWith=ScriptState, RaisesException] */
   setCaptureHandleConfig(config?: CaptureHandleConfig): void;
+  /** @remarks Extended attributes: [RuntimeEnabled=PreferredAudioOutputDevices, CallWith=ScriptState, RaisesException, MeasureAs=PreferredAudioOutputDevices] */
   setPreferredSinkId(sinkId: string): Promise<undefined>;
 }
 
