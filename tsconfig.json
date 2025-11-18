@@ -22,7 +22,7 @@
 
     /* Additional Types */
     "paths": {
-      "$types/*": ["types/*.d.ts"]
+      "$types/*": ["types/index.d.ts"]
     }
   },
   "include": ["src"]

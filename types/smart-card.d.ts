@@ -1,18 +1,4 @@
 /**
- * Copyright 2025 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
  * Generated from:
  * - navigator_smart_card.idl
  * - smart_card_connection.idl
@@ -25,10 +11,13 @@
  */
 
 /** @remarks Extended attributes: [Exposed=Window, RuntimeEnabled=SmartCard, SecureContext, IsolatedContext] */
-export interface SmartCardResourceManager {
+declare global {
+  interface SmartCardResourceManager {
   /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=SmartCardEstablishContext, RaisesException] */
   establishContext(): Promise<SmartCardContext>;
+  }
 }
+export type SmartCardResourceManager = globalThis.SmartCardResourceManager;
 
 export type SmartCardResponseCode =
   | "no-service"
@@ -53,8 +42,8 @@ export interface SmartCardErrorOptions {
 }
 
 /** @remarks Extended attributes: [Exposed=Window, RuntimeEnabled=SmartCard, SecureContext, IsolatedContext] */
-export interface SmartCardError extends DOMException {
-  constructor(message: string, options: SmartCardErrorOptions);
+export class SmartCardError extends DOMException {
+  constructor(message: string, options: SmartCardErrorOptions)
   readonly responseCode: SmartCardResponseCode;
 }
 
@@ -127,14 +116,17 @@ export interface SmartCardConnectOptions {
 }
 
 /** @remarks Extended attributes: [Exposed=Window, RuntimeEnabled=SmartCard, SecureContext, IsolatedContext] */
-export interface SmartCardContext {
+declare global {
+  interface SmartCardContext {
   /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   listReaders(): Promise<string[]>;
   /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   getStatusChange(readerStates: SmartCardReaderStateIn[], options?: SmartCardGetStatusChangeOptions): Promise<SmartCardReaderStateOut[]>;
   /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=SmartCardConnect, RaisesException] */
   connect(readerName: string, accessMode: SmartCardAccessMode, options?: SmartCardConnectOptions): Promise<SmartCardConnectResult>;
+  }
 }
+export type SmartCardContext = globalThis.SmartCardContext;
 
 export type SmartCardConnectionState =
   | "absent"
@@ -169,7 +161,8 @@ export interface SmartCardTransmitOptions {
 export type SmartCardTransactionCallback = () => Promise<SmartCardDisposition | null>;
 
 /** @remarks Extended attributes: [Exposed=Window, RuntimeEnabled=SmartCard, SecureContext, IsolatedContext] */
-export interface SmartCardConnection {
+declare global {
+  interface SmartCardConnection {
   /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   disconnect(disposition?: SmartCardDisposition): Promise<undefined>;
   /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
@@ -184,10 +177,7 @@ export interface SmartCardConnection {
   setAttribute(tag: number, value: BufferSource): Promise<undefined>;
   /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException] */
   startTransaction(transaction: SmartCardTransactionCallback, options?: SmartCardTransactionOptions): Promise<undefined>;
+  }
 }
+export type SmartCardConnection = globalThis.SmartCardConnection;
 
-/** @remarks Extended attributes: [Exposed=Window, ImplementedAs=SmartCardResourceManager, RuntimeEnabled=SmartCard, SecureContext, IsolatedContext] */
-export interface Navigator {
-  /** @remarks Extended attributes: [SameObject] */
-  readonly smartCard: SmartCardResourceManager;
-}

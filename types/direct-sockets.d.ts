@@ -1,18 +1,4 @@
 /**
- * Copyright 2022 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
  * Generated from:
  * - multicast_controller.idl
  * - socket_connection.idl
@@ -26,9 +12,9 @@
  */
 
 /** @remarks Extended attributes: [Exposed, ActiveScriptWrappable, SecureContext, IsolatedContext] */
-export interface UDPSocket {
+export class UDPSocket {
   /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=UDPSocketConstructor] */
-  constructor(options: UDPSocketOptions);
+  constructor(options: UDPSocketOptions)
   /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UDPSocketOpenedAttribute] */
   readonly opened: Promise<UDPSocketOpenInfo>;
   /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=UDPSocketClosedAttribute] */
@@ -45,9 +31,9 @@ export interface UDPMessage {
 }
 
 /** @remarks Extended attributes: [Exposed, ActiveScriptWrappable, SecureContext, IsolatedContext] */
-export interface TCPSocket {
+export class TCPSocket {
   /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=TCPSocketConstructor] */
-  constructor(remoteAddress: string, remotePort: number, options?: TCPSocketOptions);
+  constructor(remoteAddress: string, remotePort: number, options?: TCPSocketOptions)
   /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=TCPSocketOpenedAttribute] */
   readonly opened: Promise<TCPSocketOpenInfo>;
   /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=TCPSocketClosedAttribute] */
@@ -57,9 +43,9 @@ export interface TCPSocket {
 }
 
 /** @remarks Extended attributes: [Exposed, SecureContext, IsolatedContext] */
-export interface TCPServerSocket {
+export class TCPServerSocket {
   /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=TCPServerSocketConstructor] */
-  constructor(localAddress: string, options?: TCPServerSocketOptions);
+  constructor(localAddress: string, options?: TCPServerSocketOptions)
   /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=TCPServerSocketOpenedAttribute] */
   readonly opened: Promise<TCPServerSocketOpenInfo>;
   /** @remarks Extended attributes: [CallWith=ScriptState, MeasureAs=TCPServerSocketClosedAttribute] */
@@ -121,9 +107,7 @@ export interface SocketOpenInfo {
   localPort?: number;
 }
 
-export interface TCPSocketOpenInfo extends SocketOpenInfo {
-
-}
+export type TCPSocketOpenInfo = SocketOpenInfo;
 
 export interface UDPSocketOpenInfo extends SocketOpenInfo {
   /** @remarks Extended attributes: [RuntimeEnabled=MulticastInDirectSockets] */
@@ -137,12 +121,15 @@ export interface TCPServerSocketOpenInfo {
 }
 
 /** @remarks Extended attributes: [RuntimeEnabled=MulticastInDirectSockets, Exposed=Window, DedicatedWorker, SharedWorker, ServiceWorker, SecureContext, IsolatedContext] */
-export interface MulticastController {
+declare global {
+  interface MulticastController {
   /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=MulticastControllerJoinGroupFunction] */
   joinGroup(ipAddress: string): Promise<undefined>;
   /** @remarks Extended attributes: [CallWith=ScriptState, RaisesException, MeasureAs=MulticastControllerLeaveGroupFunction] */
   leaveGroup(ipAddress: string): Promise<undefined>;
   /** @remarks Extended attributes: [MeasureAs=MulticastControllerJoinedGroupsAttribute] */
   readonly joinedGroups: readonly string[];
+  }
 }
+export type MulticastController = globalThis.MulticastController;
 
