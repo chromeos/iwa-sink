@@ -18,7 +18,7 @@ import tinycolor from 'tinycolor2';
 
 const colorInput = document.getElementById('color') as HTMLInputElement;
 const luckyInput = document.getElementById('lucky') as HTMLInputElement;
-const cf = document.getElementById('cf') as ControlledFrame;
+const cf = document.getElementById('cf') as HTMLControlledFrameElement;
 const controlsForm = document.getElementById('controls') as HTMLFormElement;
 
 /**

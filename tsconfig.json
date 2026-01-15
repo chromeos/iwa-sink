@@ -19,11 +19,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-
-    /* Additional Types */
-    "paths": {
-      "$types/*": ["types/*.d.ts"]
-    }
   },
   "include": ["src"]
 }

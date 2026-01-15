@@ -42,12 +42,16 @@ export async function writeStream(
 ): Promise<void> {
   // Wait for the socket to be opened
   const connection = await socket.opened;
+
   // Get a writer to write to the socket
-  const writer = connection?.writable.getWriter();
+  const writer = connection.writable.getWriter();
   const encoder = new TextEncoder();
-  writer.write(encoder.encode(message));
+
+  await writer.write(encoder.encode(message));
+
   writer.releaseLock();
 }
+
 export async function collectConnections(
   server: TCPServerSocket,
   infoCB: (address: string, port: number) => void,
@@ -55,6 +59,9 @@ export async function collectConnections(
 ): Promise<void> {
   // Wait for the server to be opened
   const { readable, localAddress, localPort } = await server.opened;
+  if (!readable || !localAddress || localPort === undefined) {
+    throw new Error("Server opened, but readable, localAddress, or localPort is undefined.");
+  }
 
   // Get a reader to read from the server
   // These will be connections to the server
