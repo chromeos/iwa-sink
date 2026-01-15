@@ -48,7 +48,6 @@ export async function writeStream(
   const encoder = new TextEncoder();
 
   await writer.write(encoder.encode(message));
-
   writer.releaseLock();
 }
 
@@ -59,8 +58,8 @@ export async function collectConnections(
 ): Promise<void> {
   // Wait for the server to be opened
   const { readable, localAddress, localPort } = await server.opened;
-  if (!readable || !localAddress || localPort === undefined) {
-    throw new Error("Server opened, but readable, localAddress, or localPort is undefined.");
+  if (!localAddress || localPort === undefined) {
+    throw new Error("Server opened, but localAddress or localPort is undefined.");
   }
 
   // Get a reader to read from the server

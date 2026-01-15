@@ -48,9 +48,6 @@ collectConnections(
 
     // Wait for the socket to be opened
     const connection = await socket.opened;
-    if (!connection.readable) {
-      throw new Error("Socket opened, but readable stream is undefined.");
-    }
     // Get a reader to read from the socket
     const reader = connection.readable.getReader();
     await readStream(reader, (value: Uint8Array) => {
