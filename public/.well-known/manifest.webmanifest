@@ -22,7 +22,9 @@
     "direct-sockets": ["self"],
     "controlled-frame": ["self"],
     "window-management": ["self"],
-    "all-screens-capture": ["self"]
+    "all-screens-capture": ["self"],
+    "local-network": ["self"],
+    "loopback-network": ["self"]
   },
   "protocol_handlers": [
     {
