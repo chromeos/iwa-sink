@@ -37,7 +37,7 @@ jobs:
       uses: mathieudutour/github-tag-action@v6.2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        default_bump: major
+        default_bump: minor
     - name: Get all tags
       uses: octokit/request-action@v2.x
       id: get_latest_release
